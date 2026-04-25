@@ -80,6 +80,11 @@
         { c: "Documents", q: "Where can I find official digital copies of CC, Building License, and Site Plan?", a: "CC/License: <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>PDF Link</a> | Plan: <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>PDF Link</a>" }
     ];
 
+    // Assign sequential number to each FAQ item
+    DATA.forEach((item, index) => {
+        item.num = index + 1;
+    });
+
     function showTab(t) {
         document.getElementById('panel-faq').classList.toggle('active', t === 'faq');
         document.getElementById('panel-chat').classList.toggle('active', t === 'chat');
@@ -91,22 +96,23 @@
         const container = document.getElementById('faq-container');
         const cats = ["Technical Issues", "Application Process", "General Information", "Status & Search", "Documents"];
         let html = '';
-        let globalCounter = 1;
 
         cats.forEach(cat => {
-            html += `<div class="cat-title">${cat}</div>`;
-            DATA.filter(item => item.c === cat).forEach((item) => {
-                const uniqueID = "faq-item-" + globalCounter;
-                html += `
-                <div class="faq-item" id="${uniqueID}">
-                    <div class="faq-q" onclick="document.getElementById('${uniqueID}').classList.toggle('open')">
-                        <span class="badge">${globalCounter}</span>
-                        <span>${item.q}</span>
-                    </div>
-                    <div class="faq-a">${item.a}</div>
-                </div>`;
-                globalCounter++;
-            });
+            const catItems = DATA.filter(item => item.c === cat);
+            if (catItems.length > 0) {
+                html += `<div class="cat-title">${cat}</div>`;
+                catItems.forEach((item) => {
+                    const uniqueID = "faq-item-" + item.num;
+                    html += `
+                    <div class="faq-item" id="${uniqueID}">
+                        <div class="faq-q" onclick="document.getElementById('${uniqueID}').classList.toggle('open')">
+                            <span class="badge">${item.num}</span>
+                            <span>${item.q}</span>
+                        </div>
+                        <div class="faq-a">${item.a}</div>
+                    </div>`;
+                });
+            }
         });
         container.innerHTML = html;
     }
@@ -125,7 +131,7 @@
         box.scrollTop = box.scrollHeight;
 
         try {
-            const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
+            const contextText = DATA.map((d) => d.num + ". " + d.q + " " + d.a).join(" ");
             const prompt = "Use this info: " + contextText + ". Answer politely for seniors: " + q;
             const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent?key=" + API_KEY, {
                 method: "POST",
