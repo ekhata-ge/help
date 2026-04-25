@@ -256,32 +256,83 @@ const GEMINI_API_KEY = "AIzaSyBa7WQyzEqzigkCpKtHXwfDRX8cx6sna7E";
 const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
 var GBA_FAQS = [
-  { q: "What is e-Khata?", a: "e-Khata is a digital property ownership document issued by the Greater Bengaluru Authority (GBA).", cat: "General" },
-  { q: "Who is eligible to apply for e-Khata?", a: "Any property owner within GBA limits with up-to-date tax history.", cat: "Application" },
-  { q: "What documents are required for e-Khata application?", a: "Sale deed, 15-year EC, latest tax receipt, Aadhar, and property sketch.", cat: "Documents" },
-  { q: "How long does it take to get e-Khata?", a: "Typically 15 to 30 working days.", cat: "Status" },
-  { q: "What are the fees for e-Khata?", a: "2% of property guidance value (min Rs. 500).", cat: "Fees" },
-  { q: "How do I track my e-Khata application status?", a: "Visit gba.karnataka.gov.in and click on 'Track Application'.", cat: "Status" },
-  { q: "Can I apply for e-Khata for inherited property?", a: "Yes, with a legal heirship certificate and death certificate.", cat: "Transfer" },
-  { q: "How do I transfer e-Khata after buying a property?", a: "Apply online on the GBA portal with the registered sale deed.", cat: "Transfer" },
-  { q: "Is e-Khata mandatory for getting a home loan?", a: "Yes, most banks require it as proof of ownership.", cat: "General" },
-  { q: "What if my property is not in the GBA database?", a: "Visit your nearest GBA ward office with your original sale deed.", cat: "Technical" },{
+  {
     q: "How do I fix a name mismatch error between e-KYC and Kaveri deed owners?",
-    a: "Select 'Sale/Transferred' in both the e-KYC and Kaveri sections. If a technical issue persists, it's often a system sync error. Ensure all names exactly match your registered sale deed.",
+    a: "If you have a name mismatch, select 'Sale/Transferred' in both the e-KYC and Kaveri sections. If a technical issue stops you from progressing, it is likely a system sync error. Ensure all names match your registered sale deed exactly.",
     cat: "Technical"
   },
   {
-    q: "What are the main differences between applying for Phase 1 vs. Phase 2/3?",
-    a: "Phase 1 uses an 18-digit Gram Panchayat number as the Assessment ID (No Book). Phase 2/3 uses an alphanumeric ID (Book A125) and often requires attaching a Challan if the ARO hasn't signed.",
+    q: "What are the main differences between Phase 1 and Phase 2/3 applications?",
+    a: "Phase 1: No Book listed, uses 18-digit Gram Panchayat ID as Assessment ID. Phase 2/3: Listed under 'Book A125', uses an alphanumeric Assessment ID, and usually requires a manual Challan attachment if the ARO has not signed the records.",
     cat: "Application"
   },
   {
+    q: "What should I do if two ePID numbers were created for the same property?",
+    a: "The GBA Helpdesk recommends using the ePID that contains all your property details, even if the address is missing. Ignore the second ePID that only contains the address.",
+    cat: "Technical"
+  },
+  {
     q: "How can I apply for an e-Khata?",
-    a: "Online options: 1) Official video guides, 2) Local youth entrepreneur (bbmpeaasthi.karnataka.gov.in), 3) Janasevaka service, or 4) Bangalore One centers.",
+    a: "There are four online ways: 1) Apply yourself using official videos, 2) Use a local youth entrepreneur via bbmpeaasthi.karnataka.gov.in, 3) Use the Janasevaka service, or 4) Visit a Bangalore One center.",
     cat: "General"
-  }
+  },
+  {
+    q: "What is 'Owner Share' and how do I update it?",
+    a: "Owner share is the ownership percentage for each owner of the property. You can update this at: https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare",
+    cat: "Application"
+  },
+  {
+    q: "How do I find a Draft Khata for Phase 1?",
+    a: "Log in to bbmpeaasthi.karnataka.gov.in, go to 'Draft to Final ekhata' for Ward 198. Search by Owner Name 'ಗೋದ್ರೇಜ್' (Godrej) and look for your 18-digit Gram Panchayat number from your sale deed. If missing, the owner may have a draft in their own name or an application already in progress.",
+    cat: "Status"
+  },
+  {
+    q: "How do I find a Draft Khata for Phase 2 & 3?",
+    a: "Search Ward 198 by 'Book No' A125. Look for your Assessment or flat number. If the flat number isn't visible, click the page number hyperlink to see full details and save your property ePID.",
+    cat: "Status"
+  },
+  {
+    q: "Where are the GBA and ARO offices located?",
+    a: "Ward Office: 15/3, Kanakapura Main Rd, Talaghattapura. ARO Kengeri Office: No. 569/570, Srinivasa Arcade, 80 Feet Road, Kengeri Upanagara.",
+    cat: "General"
+  },
+  {
+    q: "Why is my property tax showing the wrong zone (Rajarajeshwari/West)?",
+    a: "This is a common discrepancy caused by the transition from BBMP to GBA. Officially we are in South, but some records still show West/Rajarajeshwari Nagar. You do not need to worry about this label.",
+    cat: "Technical"
+  },
+  {
+    q: "Where can I check my application status or download my approved e-Khata?",
+    a: "Status check: https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus. Download and Mutation Payment: https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx",
+    cat: "Status"
+  },
+  {
+    q: "What are the building license and approved plan references?",
+    a: "Document 1: 'BMICAPA/SS/RD/13/20152016' (dated 13-10-2015). Document 2: 'BMICPA SITE PLAN' (dated 21-04-2016). Reference ID: 1501272677303.",
+    cat: "Documents"
+  },
+  {
+    q: "My Khata was approved in 'Godrej' name instead of mine. What should I do?",
+    a: "Use the correction link once logged in. Corrections through the ARO helpdesk typically take 7 to 10 days. You do not necessarily need a separate mutation application for this fix.",
+    cat: "Application"
+  },
+  {
+    q: "What should I check on my Final Khata?",
+    a: "Ensure it matches your sale deed, tax receipt, and application. Check for mutation charges; the standard fee is 2% of the stamp duty (min ₹500). If BBMP missed them, they may issue a demand later.",
+    cat: "Documents"
+  },
+  {
+    q: "My Phase 1 address is wrong (Venkatesh Layout) in the draft. How do I fix it?",
+    a: "You can ignore the draft address. Confirm your Assessment number matches your sale deed. You will provide the correct address during your final submission, and it will be updated on your Final e-Khata.",
+    cat: "Application"
+  },
+  {
+    q:"Where can i find the approval document and building license required to be uploaded to the portal ?",
+    a:"CC and Building License - https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view?usp=drive_link Copy of Site Plan: https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view?usp=drive_link"
+    cat: "Documents"
+  },
 ];
-// FAQ Logic
+  // FAQ Logic
 var gbaActiveFilter = 'All';
 function gbaTab(name) {
   document.querySelectorAll('.gba-tab').forEach((t, i) => t.classList.toggle('active', ['faq','chat'][i] === name));
