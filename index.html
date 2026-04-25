@@ -266,7 +266,27 @@ var GBA_FAQS = [
   { q: "How do I transfer e-Khata after buying a property?", a: "Apply online on the GBA portal with the registered sale deed.", cat: "Transfer" },
   { q: "Is e-Khata mandatory for getting a home loan?", a: "Yes, most banks require it as proof of ownership.", cat: "General" },
   { q: "What if my property is not in the GBA database?", a: "Visit your nearest GBA ward office with your original sale deed.", cat: "Technical" }
+];// Add these new 2026 FAQs to your existing list
+var NEW_FAQS = [
+  {
+    q: "How do I fix a name mismatch error between e-KYC and Kaveri deed owners?",
+    a: "Select 'Sale/Transferred' in both the e-KYC and Kaveri sections. If a technical issue persists, it's often a system sync error. Ensure all names exactly match your registered sale deed.",
+    cat: "Technical"
+  },
+  {
+    q: "What are the main differences between applying for Phase 1 vs. Phase 2/3?",
+    a: "Phase 1 uses an 18-digit Gram Panchayat number as the Assessment ID (No Book). Phase 2/3 uses an alphanumeric ID (Book A125) and often requires attaching a Challan if the ARO hasn't signed.",
+    cat: "Application"
+  },
+  {
+    q: "How can I apply for an e-Khata?",
+    a: "Online options: 1) Official video guides, 2) Local youth entrepreneur (bbmpeaasthi.karnataka.gov.in), 3) Janasevaka service, or 4) Bangalore One centers.",
+    cat: "General"
+  }
 ];
+
+// This line combines your old list and the new list automatically
+GBA_FAQS = GBA_FAQS.concat(NEW_FAQS);
 
 // FAQ Logic
 var gbaActiveFilter = 'All';
