@@ -50,15 +50,16 @@
             font-size: 18px; color: #0d3b6e; border-bottom: 2px solid #0d3b6e;
             margin-bottom: 15px; padding-bottom: 5px; font-weight: bold;
         }
-        #gba-faq-widget .gba-item { border: 1px solid #e5e8ed; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        #gba-faq-widget .gba-item { border: 1px solid #e5e8ed; border-radius: 8px; margin-bottom: 12px; }
         #gba-faq-widget .gba-q { display: flex; align-items: flex-start; gap: 12px; padding: 16px; cursor: pointer; }
         #gba-faq-widget .gba-q:hover { background: #f9fbff; }
+        #gba-faq-widget .gba-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #e8f0fb; color: #1a5cb5; font-weight: bold; }
         #gba-faq-widget .gba-q-text { flex: 1; font-size: 15px; font-weight: 600; color: #1a1a1a; }
         #gba-faq-widget .gba-a { display: none; padding: 20px; font-size: 14px; color: #333; background: #fff; border-top: 1px solid #eee; }
         #gba-faq-widget .gba-item.open .gba-a { display: block; }
         #gba-faq-widget a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
         
-        #gba-faq-widget .gba-messages { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px; }
+        #gba-faq-widget .gba-messages { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
         #gba-faq-widget .gba-msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 14px; }
         #gba-faq-widget .gba-msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; border-bottom-right-radius: 2px; }
         #gba-faq-widget .gba-msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border-bottom-left-radius: 2px; border: 1px solid #ddd; }
@@ -99,51 +100,23 @@
 </div>
 
 <script>
-    // THE API KEY IS ACTIVE BELOW
     const GEMINI_API_KEY = "AIzaSyBa7WQyzEqzigkCpKtHXwfDRX8cx6sna7E"; 
     const GEMINI_MODEL = "gemini-2.5-flash-lite";
 
     const GBA_FAQS = [
-        { 
-            cat: "Technical Issues",
-            q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", 
-            a: "Both sections should select 'Sale/Transferred'. If you cannot progress due to a technical issue, ensure the names in both sections match your registered sale deed exactly. If the error persists, it is likely a system sync issue." 
-        },
-        { 
-            cat: "Application Process",
-            q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", 
-            a: "<b>Phase 1:</b> Select 'No Book'. The 18-digit Gram Panchayat Khata number is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO has signed; if not, attach manual Challan." 
-        },
-        { 
-            cat: "Technical Issues",
-            q: "Two ePID numbers were created for the same Assessment number. Which one should I use?", 
-            a: "Proceed with the ePID that contains all your property details (even if address is missing). The newly generated ePID with only the address should be ignored." 
-        },
-        { 
-            cat: "General Information",
-            q: "What are the different ways in which I can apply for e-Khata?", 
-            a: "1. Self-Apply via official videos.<br>2. Local Entrepreneur via <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br>3. Janasevaka services.<br>4. Bangalore One centers." 
-        },
-        { 
-            cat: "Application Process",
-            q: "What should I enter in the 'Owners Share' column?", 
-            a: "Enter the percentage of ownership (e.g., 50% for joint owners). Update it here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Link</a>." 
-        },
-        { 
-            cat: "Status & Search",
-            q: "How do I find my draft e-Khata for Phase 1?", 
-            a: "Visit the portal, login, select Ward 198, search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej). Look for your 18-digit Gram Panchayat number." 
-        },
-        { 
-            cat: "General Information",
-            q: "What is the BBMP Ward Office address?", 
-            a: "15/3, Kanakapura Main Rd, Talaghattapura, 560109. <a href='https://maps.google.com' target='_blank'>Map Link</a>." 
-        },
-        { 
-            cat: "Documents",
-            q: "Where can I find the official digital copies of the CC and Building License?", 
-            a: "<b>CC and Building License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view?usp=drive_link' target='_blank'>PDF Link</a><br><b>Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view?usp=drive_link' target='_blank'>PDF Link</a>" 
-        }
+        { cat: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections should select 'Sale/Transferred'. If you cannot progress due to a technical issue, ensure the names in both sections match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
+        { cat: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No book'. The 18-digit Gram Panchayat ID is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO has signed; if not, you must attach the manual Challan. Rest of the procedure remains the same." },
+        { cat: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number. How can this be sorted out?", a: "The GBA Helpdesk advises proceeding with the ePID that contains all property details except the address. The newly generated ePID with only the address should be ignored." },
+        { cat: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br>1. <b>Self-Apply:</b> Use official videos and apply yourself.<br>2. <b>Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br>3. <b>Janasevaka:</b> Available in useful links on the official website.<br>4. <b>Bangalore One:</b> Visit any center for online application assistance." },
+        { cat: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "Enter the percentage of ownership (e.g., 50% for joint owners). If you already have your e-Khata, update it here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Portal</a>." },
+        { cat: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit the portal and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat number found in your Sale Deed." },
+        { cat: "General Information", q: "What is the address for the BBMP Ward and ARO offices?", a: "<b>Ward Office:</b> 15/3, Kanakapura Main Rd, Talaghattapura, 560109.<br><b>ARO Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
+        { cat: "Documents", q: "What are the document references for building license and approved plans?", a: "<b>Document 1:</b> BMICAPA/SS/RD/13/20152016 (Dated 13-10-2015).<br><b>Document 2:</b> BMICPA SITE PLAN (Dated 21-04-2016). Reference ID: 1501272677303." },
+        { cat: "Documents", q: "Where can I find official digital copies of CC, Building License, and Site Plan?", a: "<b>CC/License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>PDF Link</a><br><b>Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>PDF Link</a>" },
+        { cat: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Ask for corrections in final khata using the correction link once logged in. Tickets or ARO visits typically resolve this in 7 to 10 days." },
+        { cat: "Status & Search", q: "How do I find the status of a submitted e-Khata and where to download it?", a: "Status check: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Link</a><br>Download approved e-Khata: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Link</a>" },
+        { cat: "Status & Search", q: "How to find the draft e-Khata for Phase 2 and Phase 3?", a: "In Ward 198, search by 'Book No' and enter 'A125'. Search for your Assessment or flat number. If not immediately visible, use page number hyperlinks to find the specific listing." },
+        { cat: "Technical Issues", q: "Why is my property tax showing Rajarajeshwari Nagar/West zone?", a: "This is a transition discrepancy between BBMP and GBA. Officially we are in South, but some records still show West. This does not affect your legal status." }
     ];
 
     function gbaTab(name) {
@@ -164,38 +137,4 @@
                 html += `<div class="gba-item" id="item-${globalIndex}"><div class="gba-q" onclick="document.getElementById('item-${globalIndex}').classList.toggle('open')"><span class="gba-badge">${globalIndex}</span><span class="gba-q-text">${f.q}</span></div><div class="gba-a">${f.a}</div></div>`;
                 globalIndex++;
             });
-            html += `</div>`;
-        });
-        container.innerHTML = html;
-    }
-
-    async function gbaSend() {
-        const input = document.getElementById('gba-chat-input');
-        const msgContainer = document.getElementById('gba-messages');
-        const val = input.value.trim();
-        if(!val) return;
-        input.value = '';
-        msgContainer.innerHTML += `<div class="gba-msg user">${val}</div>`;
-        const botMsg = document.createElement('div');
-        botMsg.className = 'gba-msg bot';
-        botMsg.textContent = 'Searching...';
-        msgContainer.appendChild(botMsg);
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-
-        try {
-            const context = GBA_FAQS.map(f => `Q: ${f.q} A: ${f.a}`).join(' ');
-            const prompt = `You are a helpful assistant. Use ONLY this info: ${context}. Answer politely for seniors. Question: ${val}`;
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-            const data = await resp.json();
-            botMsg.innerHTML = data.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-        } catch(e) { botMsg.textContent = "Error connecting. Please try again."; }
-        msgContainer.scrollTop = msgContainer.scrollHeight;
-    }
-    window.onload = gbaRender;
-</script>
-</body>
-</html>
+            html +=
