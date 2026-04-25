@@ -1,12 +1,3 @@
-<!-- ============================================================
-     GBA e-Khata FAQ Widget
-     Paste this into a WordPress page using the "Custom HTML" block.
-
-     TO ADD / EDIT FAQs:
-     Find the section marked "EDIT YOUR FAQs HERE" below and
-     add or modify entries in the faqs array.
-     ============================================================ -->
-
 <style>
   #gba-faq-widget * { box-sizing: border-box; margin: 0; padding: 0; }
   #gba-faq-widget {
@@ -217,36 +208,11 @@
     transition: background 0.15s;
   }
   #gba-faq-widget .gba-send:hover { background: #0a2f58; }
-  #gba-faq-widget .gba-empty {
-    text-align: center;
-    padding: 2.5rem;
-    color: #999;
-    font-size: 13px;
-  }
   #gba-faq-widget .gba-footer {
     text-align: center;
     margin-top: 20px;
     font-size: 12px;
     color: #aaa;
-  }
-  #gba-faq-widget .gba-cta {
-    display: inline-block;
-    margin-top: 16px;
-    font-size: 13px;
-    color: #0d3b6e;
-    cursor: pointer;
-    background: none;
-    border: 1px solid #0d3b6e;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-family: inherit;
-  }
-  #gba-faq-widget .gba-cta:hover { background: #f0f5ff; }
-
-  @media (max-width: 600px) {
-    #gba-faq-widget .gba-header { padding: 20px 18px 16px; }
-    #gba-faq-widget .gba-body { padding: 16px; }
-    #gba-faq-widget .gba-msg { max-width: 92%; }
   }
 </style>
 
@@ -262,145 +228,76 @@
   </div>
 
   <div class="gba-body">
-
-    <!-- FAQ Panel -->
     <div id="gba-panel-faq" class="gba-panel active">
       <div class="gba-filters" id="gba-filters"></div>
       <div class="gba-faq-list" id="gba-faq-list"></div>
-      <div style="text-align:center;margin-top:20px;">
-        <button class="gba-cta" onclick="gbaTab('chat')">Can't find your answer? Chat with the AI assistant &rarr;</button>
-      </div>
     </div>
 
-    <!-- Chat Panel -->
     <div id="gba-panel-chat" class="gba-panel">
       <div class="gba-chat-hint">
-        The AI assistant answers based on our official FAQ content. For urgent issues, call the GBA helpline or visit <strong>gba.karnataka.gov.in</strong>.
+        The AI assistant answers based on our official FAQ content.
       </div>
       <div class="gba-messages" id="gba-messages">
-        <div class="gba-msg bot">Hello! I am the GBA e-Khata assistant. You can ask me anything about the e-Khata process — how to apply, documents needed, fees, status tracking, and more.</div>
+        <div class="gba-msg bot">Hello! I am the GBA e-Khata assistant. Ask me anything about e-Khata.</div>
       </div>
       <div class="gba-input-row">
         <input class="gba-input" id="gba-chat-input" type="text" placeholder="Type your question here..." onkeydown="if(event.key==='Enter')gbaSend()">
         <button class="gba-send" onclick="gbaSend()">Send</button>
       </div>
     </div>
-
   </div>
-
-  <div class="gba-footer">Powered by GBA &middot; For official services visit gba.karnataka.gov.in</div>
 </div>
 
 <script>
 // ============================================================
-// EDIT YOUR FAQs HERE
-// Each entry has: q (question), a (answer), cat (category)
-// Categories: General, Application, Documents, Fees, Status, Transfer, Technical
+// GEMINI SETTINGS
 // ============================================================
+const GEMINI_API_KEY = "AIzaSyA-R0YDHfoXHVj-IRpAD9ptBzjfZ8b1d1E"; 
+const GEMINI_MODEL = "gemini-2.5-flash-lite";
+
 var GBA_FAQS = [
-  {
-    q: "What is e-Khata?",
-    a: "e-Khata is a digital property ownership document issued by the Greater Bengaluru Authority (GBA). It replaces the manual Khata system and provides legal recognition of property ownership within GBA limits. It is mandatory for property-related transactions like loans, resale, and building plan approvals.",
-    cat: "General"
-  },
-  {
-    q: "Who is eligible to apply for e-Khata?",
-    a: "Any property owner within GBA limits whose property is registered at the sub-registrar office and has an up-to-date property tax payment history is eligible to apply for e-Khata.",
-    cat: "Application"
-  },
-  {
-    q: "What documents are required for e-Khata application?",
-    a: "You will need: 1) Sale deed / title deed, 2) Encumbrance Certificate (EC) for the last 15 years, 3) Latest property tax paid receipt, 4) Aadhar card of the applicant, 5) Property sketch / survey sketch, 6) Betterment charges receipt (if applicable), 7) Possession certificate (for apartments).",
-    cat: "Documents"
-  },
-  {
-    q: "How long does it take to get e-Khata?",
-    a: "Typically 15 to 30 working days from the date of successful application submission, provided all documents are in order. You will receive SMS and email updates at each stage of your application.",
-    cat: "Status"
-  },
-  {
-    q: "What are the fees for e-Khata?",
-    a: "The processing fee is 2% of the property guidance value, with a minimum of Rs. 500, whichever is higher. Additional betterment charges may apply for properties in newly added GBA zones. The exact fee is calculated and displayed during the online application process.",
-    cat: "Fees"
-  },
-  {
-    q: "How do I track my e-Khata application status?",
-    a: "Visit the GBA portal at gba.karnataka.gov.in and click on 'Track Application'. Enter your application reference number or registered mobile number to see real-time status updates.",
-    cat: "Status"
-  },
-  {
-    q: "Can I apply for e-Khata for inherited property?",
-    a: "Yes. For inherited property, in addition to the standard documents, you must submit: a legal heirship certificate, the death certificate of the previous owner, and a No Objection Certificate (NOC) from all other legal heirs.",
-    cat: "Transfer"
-  },
-  {
-    q: "How do I transfer e-Khata after buying a property?",
-    a: "After registration of the sale deed, you can apply for a Khata transfer online on the GBA portal. Submit the registered sale deed, latest EC, tax paid receipt, and pay the transfer fee (typically 2% of guidance value). The transfer is processed within 30 working days.",
-    cat: "Transfer"
-  },
-  {
-    q: "Is e-Khata mandatory for getting a home loan?",
-    a: "Yes, most banks and financial institutions require an e-Khata as proof of property ownership before sanctioning a home loan or mortgage. It is also required for building plan approvals and property resale.",
-    cat: "General"
-  },
-  {
-    q: "What if my property is not in the GBA database?",
-    a: "If your property does not appear in the GBA database, visit your nearest GBA ward office with your original sale deed and survey documents. Staff will help you register the property in the system before you can proceed with the e-Khata application.",
-    cat: "Technical"
-  }
+  { q: "What is e-Khata?", a: "e-Khata is a digital property ownership document issued by the Greater Bengaluru Authority (GBA).", cat: "General" },
+  { q: "Who is eligible to apply for e-Khata?", a: "Any property owner within GBA limits with up-to-date tax history.", cat: "Application" },
+  { q: "What documents are required for e-Khata application?", a: "Sale deed, 15-year EC, latest tax receipt, Aadhar, and property sketch.", cat: "Documents" },
+  { q: "How long does it take to get e-Khata?", a: "Typically 15 to 30 working days.", cat: "Status" },
+  { q: "What are the fees for e-Khata?", a: "2% of property guidance value (min Rs. 500).", cat: "Fees" },
+  { q: "How do I track my e-Khata application status?", a: "Visit gba.karnataka.gov.in and click on 'Track Application'.", cat: "Status" },
+  { q: "Can I apply for e-Khata for inherited property?", a: "Yes, with a legal heirship certificate and death certificate.", cat: "Transfer" },
+  { q: "How do I transfer e-Khata after buying a property?", a: "Apply online on the GBA portal with the registered sale deed.", cat: "Transfer" },
+  { q: "Is e-Khata mandatory for getting a home loan?", a: "Yes, most banks require it as proof of ownership.", cat: "General" },
+  { q: "What if my property is not in the GBA database?", a: "Visit your nearest GBA ward office with your original sale deed.", cat: "Technical" }
 ];
-// ============================================================
-// END OF FAQ SECTION — do not edit below this line
-// ============================================================
 
+// FAQ Logic
 var gbaActiveFilter = 'All';
-
 function gbaTab(name) {
-  document.querySelectorAll('#gba-faq-widget .gba-tab').forEach(function(t, i) {
-    t.classList.toggle('active', ['faq','chat'][i] === name);
-  });
+  document.querySelectorAll('.gba-tab').forEach((t, i) => t.classList.toggle('active', ['faq','chat'][i] === name));
   document.getElementById('gba-panel-faq').classList.toggle('active', name === 'faq');
   document.getElementById('gba-panel-chat').classList.toggle('active', name === 'chat');
 }
 
 function gbaRender() {
   var cats = ['All'];
-  GBA_FAQS.forEach(function(f) { if (cats.indexOf(f.cat) === -1) cats.push(f.cat); });
-
-  document.getElementById('gba-filters').innerHTML = cats.map(function(c) {
-    return '<button class="gba-chip' + (c === gbaActiveFilter ? ' active' : '') + '" onclick="gbaFilter(\'' + c + '\')">' + c + '</button>';
-  }).join('');
-
-  var filtered = gbaActiveFilter === 'All' ? GBA_FAQS : GBA_FAQS.filter(function(f) { return f.cat === gbaActiveFilter; });
-  var list = document.getElementById('gba-faq-list');
-
-  if (filtered.length === 0) {
-    list.innerHTML = '<div class="gba-empty">No FAQs in this category yet.</div>';
-    return;
-  }
-
-  list.innerHTML = filtered.map(function(f, i) {
-    return '<div class="gba-item" id="gba-item-' + i + '">' +
-      '<div class="gba-q" onclick="gbaToggle(\'gba-item-' + i + '\')">' +
-        '<span class="gba-badge">' + f.cat + '</span>' +
-        '<span class="gba-q-text">' + f.q + '</span>' +
-        '<span class="gba-arrow">&#9654;</span>' +
-      '</div>' +
-      '<div class="gba-a">' + f.a + '</div>' +
-    '</div>';
-  }).join('');
+  GBA_FAQS.forEach(f => { if (!cats.includes(f.cat)) cats.push(f.cat); });
+  document.getElementById('gba-filters').innerHTML = cats.map(c => `<button class="gba-chip${c === gbaActiveFilter ? ' active' : ''}" onclick="gbaFilter('${c}')">${c}</button>`).join('');
+  var filtered = gbaActiveFilter === 'All' ? GBA_FAQS : GBA_FAQS.filter(f => f.cat === gbaActiveFilter);
+  document.getElementById('gba-faq-list').innerHTML = filtered.map((f, i) => `
+    <div class="gba-item" id="gba-item-${i}">
+      <div class="gba-q" onclick="gbaToggle('gba-item-${i}')">
+        <span class="gba-badge">${f.cat}</span>
+        <span class="gba-q-text">${f.q}</span>
+        <span class="gba-arrow">&#9654;</span>
+      </div>
+      <div class="gba-a">${f.a}</div>
+    </div>`).join('');
 }
 
-function gbaFilter(cat) {
-  gbaActiveFilter = cat;
-  gbaRender();
-}
+function gbaFilter(cat) { gbaActiveFilter = cat; gbaRender(); }
+function gbaToggle(id) { document.getElementById(id).classList.toggle('open'); }
 
-function gbaToggle(id) {
-  var el = document.getElementById(id);
-  if (el) el.classList.toggle('open');
-}
-
+// ============================================================
+// GEMINI CHAT LOGIC
+// ============================================================
 async function gbaSend() {
   var input = document.getElementById('gba-chat-input');
   var q = input.value.trim();
@@ -408,7 +305,6 @@ async function gbaSend() {
   input.value = '';
 
   var msgs = document.getElementById('gba-messages');
-
   var userDiv = document.createElement('div');
   userDiv.className = 'gba-msg user';
   userDiv.textContent = q;
@@ -420,28 +316,28 @@ async function gbaSend() {
   msgs.appendChild(botDiv);
   msgs.scrollTop = msgs.scrollHeight;
 
-  var context = GBA_FAQS.map(function(f, i) {
-    return 'Q' + (i+1) + ': ' + f.q + '\nA' + (i+1) + ': ' + f.a;
-  }).join('\n\n');
+  const context = GBA_FAQS.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n');
+  const systemPrompt = `You are a helpful assistant for the Greater Bengaluru Authority (GBA) e-Khata portal. 
+  Answer questions using ONLY this FAQ content: ${context}. 
+  If the answer isn't here, say: "I'm sorry, I don't have that information. Please visit gba.karnataka.gov.in." 
+  Keep answers short. User Question: ${q}`;
 
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: 'You are a helpful assistant for the Greater Bengaluru Authority (GBA) e-Khata portal. Answer questions using ONLY the FAQ content provided below. If the answer is not in the FAQs, say so politely and suggest visiting gba.karnataka.gov.in or calling the GBA helpline. Keep answers concise and friendly.\n\nFAQ CONTENT:\n' + context,
-        messages: [{ role: 'user', content: q }]
+        contents: [{ parts: [{ text: systemPrompt }] }]
       })
     });
-    var data = await res.json();
-    var reply = (data.content || []).filter(function(b) { return b.type === 'text'; }).map(function(b) { return b.text; }).join('') || 'Sorry, I could not get a response. Please try again.';
+
+    const data = await response.json();
+    const reply = data.candidates[0].content.parts[0].text;
     botDiv.className = 'gba-msg bot';
     botDiv.textContent = reply;
   } catch(e) {
     botDiv.className = 'gba-msg bot';
-    botDiv.textContent = 'Sorry, there was a connection error. Please try again or visit gba.karnataka.gov.in.';
+    botDiv.textContent = 'Connection error. Please visit gba.karnataka.gov.in.';
   }
   msgs.scrollTop = msgs.scrollHeight;
 }
