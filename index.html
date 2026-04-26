@@ -8,63 +8,32 @@
         #gba-faq-widget * { box-sizing: border-box; margin: 0; padding: 0; }
         #gba-faq-widget {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 850px;
-            margin: 20px auto;
-            color: #1a1a1a;
-            line-height: 1.6;
+            max-width: 850px; margin: 20px auto; color: #1a1a1a; line-height: 1.6;
         }
-        #gba-faq-widget .gba-header {
-            background: #0d3b6e;
-            color: #fff;
-            padding: 30px;
-            border-radius: 12px 12px 0 0;
-            text-align: center;
-        }
+        #gba-faq-widget .gba-header { background: #0d3b6e; color: #fff; padding: 30px; border-radius: 12px 12px 0 0; text-align: center; }
         #gba-faq-widget .gba-header h2 { font-size: 24px; margin-bottom: 5px; }
-        #gba-faq-widget .gba-tabs {
-            display: flex;
-            background: #f5f6f8;
-            border: 1px solid #e0e3e8;
-            border-top: none;
-        }
-        #gba-faq-widget .gba-tab {
-            flex: 1; padding: 16px; font-size: 14px; font-weight: 700;
-            cursor: pointer; border: none; background: none; color: #555;
-            border-bottom: 3px solid transparent; transition: 0.2s;
-        }
-        #gba-faq-widget .gba-tab.active {
-            color: #0d3b6e; border-bottom-color: #0d3b6e; background: #fff;
-        }
-        #gba-faq-widget .gba-body {
-            background: #fff; border: 1px solid #e0e3e8; border-top: none;
-            border-radius: 0 0 12px 12px; padding: 25px; min-height: 500px;
-        }
+        #gba-faq-widget .gba-tabs { display: flex; background: #f5f6f8; border: 1px solid #e0e3e8; border-top: none; }
+        #gba-faq-widget .gba-tab { flex: 1; padding: 16px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; background: none; color: #555; border-bottom: 3px solid transparent; transition: 0.2s; }
+        #gba-faq-widget .gba-tab.active { color: #0d3b6e; border-bottom-color: #0d3b6e; background: #fff; }
+        #gba-faq-widget .gba-body { background: #fff; border: 1px solid #e0e3e8; border-top: none; border-radius: 0 0 12px 12px; padding: 25px; min-height: 500px; }
         #gba-faq-widget .gba-panel { display: none; }
         #gba-faq-widget .gba-panel.active { display: block; }
-        #gba-faq-widget .gba-desc {
-            font-size: 13px; font-style: italic; color: #0d3b6e;
-            margin-bottom: 20px; padding: 10px; background: #eef4fb; border-radius: 6px;
-        }
-        #gba-faq-widget .gba-category-section { margin-bottom: 30px; }
-        #gba-faq-widget .gba-category-title { 
-            font-size: 18px; color: #0d3b6e; border-bottom: 2px solid #0d3b6e;
-            margin-bottom: 15px; padding-bottom: 5px; font-weight: bold;
-        }
-        #gba-faq-widget .gba-item { border: 1px solid #e5e8ed; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        #gba-faq-widget .gba-desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 20px; padding: 10px; background: #eef4fb; border-radius: 6px; }
+        #gba-faq-widget .cat-title { font-size: 18px; color: #0d3b6e; border-bottom: 2px solid #0d3b6e; margin: 25px 0 15px; padding-bottom: 5px; font-weight: bold; }
+        #gba-faq-widget .gba-item { border: 1px solid #e5e8ed; border-radius: 8px; margin-bottom: 12px; }
         #gba-faq-widget .gba-q { display: flex; align-items: flex-start; gap: 12px; padding: 16px; cursor: pointer; }
-        #gba-faq-widget .gba-q:hover { background: #f9fbff; }
         #gba-faq-widget .gba-badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: #e8f0fb; color: #1a5cb5; flex-shrink: 0; }
-        #gba-faq-widget .gba-q-text { flex: 1; font-size: 15px; font-weight: 600; color: #1a1a1a; }
+        #gba-faq-widget .gba-q-text { flex: 1; font-size: 15px; font-weight: 600; }
         #gba-faq-widget .gba-a { display: none; padding: 20px; font-size: 14px; color: #333; background: #fff; border-top: 1px solid #eee; }
         #gba-faq-widget .gba-item.open .gba-a { display: block; }
         #gba-faq-widget a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
-        #gba-faq-widget .gba-messages { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px; }
-        #gba-faq-widget .gba-msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        #gba-faq-widget .gba-msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; border-bottom-right-radius: 2px; }
-        #gba-faq-widget .gba-msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border-bottom-left-radius: 2px; border: 1px solid #ddd; }
-        #gba-faq-widget .gba-input-row { display: flex; gap: 10px; }
-        #gba-faq-widget .gba-input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
-        #gba-faq-widget .gba-send { padding: 12px 25px; background: #0d3b6e; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #gba-faq-widget .msg-box { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px; }
+        #gba-faq-widget .msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 14px; }
+        #gba-faq-widget .msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; }
+        #gba-faq-widget .msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border: 1px solid #ddd; }
+        #gba-faq-widget .input-row { display: flex; gap: 10px; }
+        #gba-faq-widget .input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+        #gba-faq-widget .send { padding: 12px 25px; background: #0d3b6e; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -72,120 +41,86 @@
 <div id="gba-faq-widget">
     <div class="gba-header">
         <h2>E-Khata Help Assistant</h2>
-        <p>Official Help Resource for Godrej Eternity Residents</p>
+        <p>Community Resource for Godrej Eternity Residents</p>
     </div>
-
     <div class="gba-tabs">
-        <button id="tab-faq" class="gba-tab active" onclick="gbaTab('faq')">BROWSE ALL FAQS</button>
+        <button id="tab-faq" class="gba-tab active" onclick="gbaTab('faq')">BROWSE FAQS</button>
         <button id="tab-chat" class="gba-tab" onclick="gbaTab('chat')">ASK AI ASSISTANT</button>
     </div>
-
     <div class="gba-body">
         <div id="gba-panel-faq" class="gba-panel active">
-            <div class="gba-desc"><b>Note:</b> Prepared by Godrej Eternity e-Khata Volunteers Team to assist residents with the transition to the GBA portal.</div>
-            <div id="gba-faq-container"></div>
+            <div class="gba-desc"><b>Note:</b> Prepared by Godrej Eternity e-Khata Volunteers Team.</div>
+            <div id="faq-container"></div>
         </div>
-
         <div id="gba-panel-chat" class="gba-panel">
-            <div id="gba-messages" class="gba-messages">
-                <div class="gba-msg bot">Namaste! I am your e-Khata assistant. Please type your question below.</div>
-            </div>
-            <div class="gba-input-row">
-                <input type="text" id="gba-chat-input" class="gba-input" placeholder="Example: How to fix name mismatch?" onkeydown="if(event.key==='Enter')gbaSend()">
-                <button class="gba-send" onclick="gbaSend()">Send</button>
+            <div id="msg-box" class="msg-box"><div class="msg bot">Namaste! Ask me anything about your e-Khata.</div></div>
+            <div class="input-row">
+                <input type="text" id="chat-input" class="input" placeholder="Type here..." onkeydown="if(event.key==='Enter')gbaSend()">
+                <button class="send" onclick="gbaSend()">Send</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // THE API KEY YOU PROVIDED IS INTEGRATED BELOW
-    const GEMINI_API_KEY = "AIzaSyBa7WQyzEqzigkCpKtHXwfDRX8cx6sna7E"; 
-    const GEMINI_MODEL = "gemini-1.5-flash";
+    const API_KEY = "AIzaSyBa7WQyzEqzigkCpKtHXwfDRX8cx6sna7E"; 
+    const MODEL = "gemini-2.5-flash"; // UPDATED FOR 2026 STABILITY
 
-    const GBA_FAQS = [
-        { cat: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections should select 'Sale/Transferred'. If you cannot progress due to a technical issue, ensure the names in both sections match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
-        { cat: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No Book'. The 18-digit Gram Panchayat Khata number serves as the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is an alphanumeric value. You must also check if the ARO has signed; if not, you must attach the manual Challan. The rest of the procedure for draft khata to final e-Khata remains the same." },
-        { cat: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number with different details. How can this be sorted out?", a: "The GBA Helpdesk advises proceeding with the ePID that contains all your property details (even if the address is missing). The newly generated ePID that contains only the address should be ignored for the application." },
-        { cat: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br>1. <b>Self-Apply:</b> Use the official video guides and apply yourself.<br>2. <b>Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br>3. <b>Janasevaka:</b> Use the 'Useful Links' on the official website.<br>4. <b>Bangalore One:</b> Visit any Bangalore One center for assistance." },
-        { cat: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "You must enter the percentage of ownership that each owner of your flat holds (e.g., 50% each for joint owners). If you already have your e-Khata, you can update this share through this link: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Owner Share Portal</a>." },
-        { cat: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit the portal and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat Khata Number found in your Sale Deed." },
-        { cat: "General Information", q: "What are the addresses for the GBA and ARO offices?", a: "<b>BBMP Ward Office:</b> 15/3, Kanakapura Main Rd, Paramount Gardens, Talaghattapura, 560109.<br><b>ARO Kengeri Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
-        { cat: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "Follow the portal steps for Ward 198. In search type, select 'Book No' and enter 'A125'. Search for your Assessment or flat number. If the flat number is not immediately visible, click the page number hyperlinks to find it." },
-        { cat: "Technical Issues", q: "While paying property tax, it is listed under Rajarajeshwari Nagar zone and Bangalore West. Is this correct?", a: "Yes. This discrepancy is due to the transition from BBMP to GBA. While we are officially under the South corporation, some records still show West. You do not need to worry about this." },
-        { cat: "Status & Search", q: "How do I find the status of my submitted e-Khata application and where do I download it?", a: "Check status here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Link</a>.<br>Download approved e-Khata here: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Link</a>." },
-        { cat: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Document 1 (License):</b> 'BMICAPA/SS/RD/13/20152016' (Dated 13-10-2015).<br><b>Document 2 (Plan):</b> 'BMICPA SITE PLAN' (Dated 21-04-2016). Reference ID: 1501272677303." },
-        { cat: "Documents", q: "Where can I find the official digital copies of the CC, Building License, and Site Plan to upload?", a: "<b>CC and Building License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view?usp=drive_link' target='_blank'>Download License PDF</a><br><b>Copy of Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view?usp=drive_link' target='_blank'>Download Site Plan PDF</a>" },
-        { cat: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Log in and use the 'Corrections' link in the portal. Raising a helpdesk ticket or visiting the ARO office can resolve this. It typically takes 7 to 10 days for approval after the correction is submitted." }
+    const FAQS = [
+        { cat: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections should select 'Sale/Transferred'. If you cannot progress due to a technical issue, ensure the names in both sections match your registered sale deed exactly." },
+        { cat: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number with different details. How can this be sorted out?", a: "Proceed with the ePID that contains all your property details (even if the address is missing). The newly generated ePID that contains only the address should be ignored." },
+        { cat: "Technical Issues", q: "While paying property tax, it is listed under Rajarajeshwari Nagar zone and Bangalore West. Is this correct?", a: "Yes. This discrepancy is due to the transition from BBMP to GBA. Officially we are in South; ignore the West label as it does not affect your legal status." },
+        { cat: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No Book'. The 18-digit Gram Panchayat ID is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO signed; if not, attach manual Challan." },
+        { cat: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "Enter the percentage of ownership (e.g., 50% each for joint owners). Update here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Link</a>." },
+        { cat: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Log in and use the 'Corrections' link. Raising a ticket or visiting the ARO office can resolve this in 7 to 10 days." },
+        { cat: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "1. Self-Apply via video. 2. Local Youth Entrepreneur. 3. Janasevaka services. 4. Bangalore One centers." },
+        { cat: "General Information", q: "What are the addresses for the GBA and ARO offices?", a: "<b>Ward Office:</b> 15/3, Kanakapura Main Rd, Talaghattapura. <b>ARO Office:</b> Srinivasa Arcade, 80ft Rd, Kengeri Upanagara." },
+        { cat: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "Log in, select Ward 198, search by 'Owner Name' (ಗೋದ್ರೇಜ್). Look for your 18-digit ID found in your Sale Deed." },
+        { cat: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "In Ward 198, search by 'Book No' A125. Search for Assessment or flat number. Use page hyperlinks to find your listing." },
+        { cat: "Status & Search", q: "How do I find the status of my submitted application and download the final e-Khata?", a: "Status: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Check Status</a> | Download: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Download Link</a>" },
+        { cat: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Doc 1:</b> BMICAPA/SS/RD/13/20152016 (13-10-2015). <b>Doc 2:</b> BMICPA SITE PLAN (21-04-2016). Ref: 1501272677303." },
+        { cat: "Documents", q: "Where can I find official digital copies of the CC, Building License, and Site Plan?", a: "CC/License: <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>PDF Link</a> | Site Plan: <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>PDF Link</a>" }
     ];
 
-    function gbaTab(name) {
-        document.getElementById('tab-faq').classList.toggle('active', name === 'faq');
-        document.getElementById('tab-chat').classList.toggle('active', name === 'chat');
-        document.getElementById('gba-panel-faq').classList.toggle('active', name === 'faq');
-        document.getElementById('gba-panel-chat').classList.toggle('active', name === 'chat');
+    function gbaTab(t) {
+        document.getElementById('tab-faq').classList.toggle('active', t === 'faq');
+        document.getElementById('tab-chat').classList.toggle('active', t === 'chat');
+        document.getElementById('gba-panel-faq').classList.toggle('active', t === 'faq');
+        document.getElementById('gba-panel-chat').classList.toggle('active', t === 'chat');
     }
 
     function gbaRender() {
-        const container = document.getElementById('gba-faq-container');
-        const categories = ["Technical Issues", "Application Process", "General Information", "Status & Search", "Documents"];
-        let html = '';
-        let globalIndex = 1;
-        categories.forEach(cat => {
-            html += `<div class="gba-category-section"><div class="gba-category-title">${cat}</div>`;
-            GBA_FAQS.filter(f => f.cat === cat).forEach(f => {
-                html += `<div class="gba-item" id="item-${globalIndex}"><div class="gba-q" onclick="document.getElementById('item-${globalIndex}').classList.toggle('open')"><span class="gba-badge">${globalIndex}</span><span class="gba-q-text">${f.q}</span></div><div class="gba-a">${f.a}</div></div>`;
-                globalIndex++;
+        const container = document.getElementById('faq-container');
+        const cats = ["Technical Issues", "Application Process", "General Information", "Status & Search", "Documents"];
+        let html = ''; let i = 1;
+        cats.forEach(c => {
+            html += `<div class="cat-title">${c}</div>`;
+            FAQS.filter(f => f.cat === c).forEach(f => {
+                html += `<div class="gba-item" id="i-${i}"><div class="gba-q" onclick="document.getElementById('i-${i}').classList.toggle('open')"><span class="gba-badge">${i}</span><span class="gba-q-text">${f.q}</span></div><div class="gba-a">${f.a}</div></div>`;
+                i++;
             });
-            html += `</div>`;
         });
         container.innerHTML = html;
     }
 
     async function gbaSend() {
-    const input = document.getElementById('gba-chat-input');
-    const msgs = document.getElementById('gba-messages');
-    const q = input.value.trim();
-    if(!q) return;
-    
-    input.value = '';
-    msgs.innerHTML += `<div class="gba-msg user">${q}</div>`;
-    const botDiv = document.createElement('div');
-    botDiv.className = 'gba-msg bot';
-    botDiv.textContent = 'Searching records...';
-    msgs.appendChild(botDiv);
-    msgs.scrollTop = msgs.scrollHeight;
-
-    try {
-        const contextText = GBA_FAQS.map((f, i) => (i+1) + ". " + f.q + " " + f.a).join(" ");
-        
-        // This is the most stable URL format for Gemini 1.5 Flash
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-        
-        const resp = await fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ 
-                contents: [{ 
-                    parts: [{ text: "Use this FAQ context: " + contextText + "\n\nQuestion: " + q }] 
-                }] 
-            })
-        });
-
-        const data = await resp.json();
-        
-        if (resp.ok) {
+        const input = document.getElementById('chat-input');
+        const box = document.getElementById('msg-box');
+        const q = input.value.trim(); if(!q) return;
+        input.value = ''; box.innerHTML += `<div class="msg user">${q}</div>`;
+        const botDiv = document.createElement('div'); botDiv.className = 'msg bot'; botDiv.textContent = 'Thinking...';
+        box.appendChild(botDiv); box.scrollTop = box.scrollHeight;
+        try {
+            const context = FAQS.map((f,idx) => (idx+1) + ". " + f.q + " " + f.a).join(" ");
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ contents: [{ parts: [{ text: "Answer using this info: " + context + ". Question: " + q }] }] })
+            });
+            const data = await resp.json();
             botDiv.innerHTML = data.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-        } else {
-            // This will show us the REAL error message in the chat box
-            console.error("API Error Details:", data);
-            botDiv.textContent = "Error: " + (data.error ? data.error.message : "Status " + resp.status);
-        }
-    } catch(e) { 
-        botDiv.textContent = "Network error. Please check your internet connection."; 
+        } catch(e) { botDiv.textContent = "Error: Model busy or API restricted. Check FAQ above."; }
+        box.scrollTop = box.scrollHeight;
     }
-    msgs.scrollTop = msgs.scrollHeight;
-}   
     window.onload = gbaRender;
 </script>
 </body>
