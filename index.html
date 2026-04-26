@@ -83,7 +83,7 @@ body {
 
 .search-box {
     width: 100%;
-    padding: 12px 14px 12px 38px;
+    padding: 12px 14px 12px 40px;
     border-radius: 25px;
     border: 1px solid #ccc;
     font-size: 14px;
@@ -94,6 +94,13 @@ body {
     top: 50%;
     left: 12px;
     transform: translateY(-50%);
+}
+
+/* Highlight */
+mark {
+    background: #fff3a0;
+    padding: 2px 4px;
+    border-radius: 3px;
 }
 
 /* FAQ */
@@ -107,6 +114,7 @@ body {
     padding: 14px;
     cursor: pointer;
     display: flex;
+    align-items: flex-start;
     gap: 10px;
     font-weight: 600;
     text-align: left;
@@ -115,6 +123,8 @@ body {
 .faq-q::before {
     content: "▶";
     color: #0d3b6e;
+    min-width: 18px;
+    margin-top: 2px;
 }
 
 .faq-item.open .faq-q::before {
@@ -165,7 +175,7 @@ body {
 <div class="widget">
     <div class="header">
         <h2>E-Khata Help Center</h2>
-        <p>Resource for Godrej Eternity Residents</p>
+        <p>Resource for Godrej Eternity Owners</p>
     </div>
 
     <div class="content">
@@ -214,29 +224,55 @@ function parseCSV(text){
         answer:r[2]?.trim()
     })).filter(f=>f.category && f.question && f.answer);
 
-    render();
+    renderLayout();
 }
 
-/* RENDER */
-function render(){
+/* LAYOUT */
+function renderLayout(){
     const container=document.getElementById('faq-container');
     const categories=[...new Set(allFAQs.map(f=>f.category))];
 
-    let html=`
+    container.innerHTML = `
     <div class="layout">
         <div class="sidebar">
-            <div class="tab main ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
+            <div class="tab main active" onclick="changeCategory('All Questions', event)">All Questions</div>
             ${categories.map(c=>`
-                <div class="tab sub ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
+                <div class="tab sub" onclick="changeCategory('${c}', event)">${c}</div>
             `).join('')}
         </div>
 
         <div class="main">
             <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
-                <input class="search-box" value="${currentSearch}" placeholder="Search FAQs..." oninput="handleSearch(this.value)">
+                <input id="searchBox" class="search-box" placeholder="Search FAQs...">
             </div>
+
+            <div id="faq-list"></div>
+        </div>
+    </div>
     `;
+
+    document.getElementById("searchBox").addEventListener("input", (e)=>{
+        currentSearch = e.target.value;
+        renderFAQList();
+    });
+
+    renderFAQList();
+}
+
+/* Highlight function */
+function highlight(text){
+    if(!currentSearch) return text;
+
+    const escaped = currentSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escaped})`, 'gi');
+
+    return text.replace(regex, '<mark>$1</mark>');
+}
+
+/* FAQ LIST */
+function renderFAQList(){
+    const list = document.getElementById('faq-list');
 
     let data = currentCategory==="All Questions"
         ? allFAQs
@@ -244,9 +280,13 @@ function render(){
 
     if(currentSearch){
         let s=currentSearch.toLowerCase();
-        data=data.filter(f=>f.question.toLowerCase().includes(s)||f.answer.toLowerCase().includes(s));
+        data=data.filter(f =>
+            f.question.toLowerCase().includes(s) ||
+            f.answer.toLowerCase().includes(s)
+        );
     }
 
+    let html='';
     let i=1;
 
     data.forEach(f=>{
@@ -254,34 +294,38 @@ function render(){
         <div class="faq-item" id="faq-${i}">
             <div class="faq-q" onclick="toggleFAQ('faq-${i}')">
                 <span class="badge">${i}</span>
-                <span>${f.question}</span>
+                <span>${highlight(f.question)}</span>
             </div>
             <div class="faq-a">
-                <div class="faq-answer-content">${linkify(f.answer)}</div>
+                <div class="faq-answer-content">${highlight(linkify(f.answer))}</div>
             </div>
         </div>`;
         i++;
     });
 
-    html+=`</div></div>`;
-    container.innerHTML=html;
+    if(data.length===0){
+        html = `<p>No results found</p>`;
+    }
+
+    list.innerHTML = html;
 }
 
-/* EVENTS */
-function changeCategory(c){
+/* CATEGORY */
+function changeCategory(c, e){
     currentCategory=c;
-    render();
+
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    e.target.classList.add('active');
+
+    renderFAQList();
 }
 
-function handleSearch(val){
-    currentSearch = val;
-    render();
-}
-
+/* TOGGLE */
 function toggleFAQ(id){
     document.getElementById(id).classList.toggle("open");
 }
 
+/* LINKS */
 function linkify(text){
     return text.replace(/https?:\/\/[^\s]+/g,u=>`<a href="${u}" target="_blank">${u}</a>`);
 }
