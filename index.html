@@ -11,9 +11,15 @@
         .header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
         .header h2 { font-size: 28px; margin-bottom: 8px; }
         .header p { font-size: 16px; opacity: 0.95; }
-        .content { padding: 25px; }
+        
+        .tabs-container { background: #fff; border-bottom: 2px solid #e0e0e0; padding: 0; display: flex; gap: 0; overflow-x: auto; }
+        .tab-button { flex: 1; min-width: 120px; padding: 14px 16px; cursor: pointer; border: none; background: #fff; color: #555; font-weight: 600; font-size: 14px; transition: all 0.3s ease; border-bottom: 3px solid transparent; white-space: nowrap; }
+        .tab-button:hover { background: #f5f5f5; }
+        .tab-button.active { background: #f0f5ff; color: #0d3b6e; border-bottom-color: #0d3b6e; }
+        
+        .content { padding: 25px; min-height: 500px; }
         .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 25px; padding: 12px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
-        .cat-title { font-size: 18px; color: #0d3b6e; margin: 30px 0 15px; font-weight: bold; border-bottom: 2px solid #0d3b6e; padding-bottom: 8px; text-transform: uppercase; }
+        
         .faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
         .faq-q { padding: 16px; cursor: pointer; font-weight: 600; background: #fff; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; user-select: none; transition: all 0.2s ease; }
         .faq-q:hover { background: #f9fbff; }
@@ -23,10 +29,13 @@
         .faq-item.open .faq-a { padding: 16px; max-height: 500px; }
         .faq-answer-content { background: #fafafa; padding: 16px; border-radius: 6px; line-height: 1.7; font-size: 14px; color: #333; }
         .faq-item.open .faq-q { background: #f0f5ff; border-radius: 8px 8px 0 0; }
-        .badge { background: #0d3b6e; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; min-width: 30px; text-align: center; flex-shrink: 0; }
+        
         a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
         a:hover { color: #0d3b6e; }
+        
         .footer { text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; color: #666; font-size: 13px; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { background: #ffe8e8; color: #c41e1e; padding: 15px; border-radius: 6px; margin: 20px 0; }
     </style>
 </head>
 <body>
@@ -34,13 +43,14 @@
 <div class="widget">
     <div class="header">
         <h2>E-Khata Help Center</h2>
-        <p>Official Resource for Godrej Eternity Residents</p>
+        <p>Resource for Godrej Eternity Residents</p>
     </div>
+    
+    <div class="tabs-container" id="tabs-container"></div>
     
     <div class="content">
         <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
-        
-        <div id="faq-container"></div>
+        <div id="faq-container" class="loading">Loading FAQs...</div>
         
         <div class="footer">
             <p>Last updated: April 2026 | For additional help, visit the official BBMP portal</p>
@@ -49,46 +59,166 @@
 </div>
 
 <script>
-    const DATA = [
-        { c: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections select Sale/Transferred. If you cannot progress due to a technical issue, ensure the names match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
-        { c: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number. How can this be sorted out?", a: "The GBA Helpdesk advised proceeding with the ePID that contains all your details (even if the address is missing). Ignore the newly generated ePID that has only the address." },
-        { c: "Technical Issues", q: "Why is my property tax showing Rajarajeshwari Nagar/West zone when we are in South?", a: "This is a transition discrepancy between BBMP and GBA. Officially we are in South, but some records still show West. This does not affect your legal status." },
-        { c: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No book'. The 18-digit Gram Panchayat ID is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO has signed; if not, you must attach the manual Challan. Rest of the procedure for draft khata to final e-Khata remains the same." },
-        { c: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "Enter the percentage of ownership (e.g., 50% for joint owners). If you already have your e-Khata, update it here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Portal</a>." },
-        { c: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Ask for corrections in final khata using the 'Corrections' link once logged in. Raising a helpdesk ticket or visiting the ARO office can resolve this. It typically takes 7 to 10 days for approval after the correction is submitted." },
-        { c: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br><br><b>1. Self-Apply:</b> Use official videos and apply yourself.<br><b>2. Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br><b>3. Janasevaka:</b> Available in useful links on the official website.<br><b>4. Bangalore One:</b> Visit any center for online application assistance." },
-        { c: "General Information", q: "What is the address for the BBMP Ward and ARO offices?", a: "<b>Ward Office:</b> 15/3, Kanakapura Main Rd, Talaghattapura, 560109.<br><br><b>ARO Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
-        { c: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit the portal and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat ID from your Sale Deed." },
-        { c: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "In Ward 198, search by 'Book No' and enter 'A125'. Search for your Assessment or flat number. If the flat number is not immediately visible, click the page number hyperlinks to find the specific listing." },
-        { c: "Status & Search", q: "How do I find the status of a submitted e-Khata and where do I download it?", a: "Status check: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Check Status Here</a><br><br>Download approved e-Khata: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Download Here</a>" },
-        { c: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Doc 1:</b> BMICAPA/SS/RD/13/20152016 (Dated 13-10-2015)<br><br><b>Doc 2:</b> BMICPA SITE PLAN (Dated 21-04-2016)<br>Reference ID: 1501272677303" },
-        { c: "Documents", q: "Where can I find official digital copies of CC, Building License, and Site Plan?", a: "<b>CC/License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>View PDF</a><br><br><b>Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>View PDF</a>" }
-    ];
+    // Google Sheet ID
+    const SHEET_ID = "1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
+    
+    // CORS proxy - allows fetching from Google Sheets without CORS errors
+    const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+    const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+    
+    // Fallback: Direct fetch without proxy (works on GitHub Pages)
+    const DIRECT_URL = EXPORT_URL;
+    
+    // Category display names (short names for tabs)
+    const categoryShortNames = {
+        "Technical Issues": "Tech",
+        "Application Process": "Process",
+        "General Information": "General",
+        "Status & Search": "Status",
+        "Documents": "Documents"
+    };
+    
+    let allFAQs = [];
+    let currentCategory = null;
 
-    function renderFAQs() {
-        const container = document.getElementById('faq-container');
-        const cats = ["Technical Issues", "Application Process", "General Information", "Status & Search", "Documents"];
+    async function loadFAQs() {
+        try {
+            let csvText = null;
+            
+            // Try direct fetch first (works on GitHub Pages)
+            try {
+                const response = await fetch(DIRECT_URL);
+                if (response.ok) {
+                    csvText = await response.text();
+                }
+            } catch (e) {
+                console.log("Direct fetch failed, will try CORS proxy...");
+            }
+            
+            // If direct fetch failed, try with CORS proxy (works locally)
+            if (!csvText) {
+                try {
+                    const response = await fetch(CORS_PROXY + EXPORT_URL);
+                    if (response.ok) {
+                        csvText = await response.text();
+                    }
+                } catch (e) {
+                    console.log("CORS proxy also failed");
+                }
+            }
+            
+            // If both failed, show helpful error
+            if (!csvText) {
+                throw new Error("Could not fetch from Google Sheet");
+            }
+            
+            // Parse CSV
+            parseAndDisplayFAQs(csvText);
+            
+        } catch (error) {
+            console.error('Error loading FAQs:', error);
+            document.getElementById('faq-container').innerHTML = `
+                <div class="error">
+                    ⚠️ Unable to load FAQs from Google Sheet<br><br>
+                    <strong>This is a browser security issue.</strong><br><br>
+                    ✅ <strong>Good news:</strong> It will work perfectly when you deploy to GitHub Pages!<br><br>
+                    <strong>To test locally:</strong><br>
+                    1. Try using a different browser<br>
+                    2. Or deploy to GitHub and test there<br><br>
+                    <strong>Make sure your Google Sheet:</strong><br>
+                    • Is shared ("Anyone with the link")<br>
+                    • Has columns: Category | Question | Answer
+                </div>
+            `;
+        }
+    }
+
+    function parseAndDisplayFAQs(csvText) {
+        // Parse CSV
+        const lines = csvText.trim().split('\n');
+        
+        // Skip header row (first line)
+        allFAQs = lines.slice(1).map(line => {
+            // Parse CSV with quotes
+            const match = line.match(/"([^"]*)","([^"]*)","(.*)"/);
+            if (match) {
+                return {
+                    category: match[1].trim(),
+                    question: match[2].trim(),
+                    answer: match[3].trim()
+                };
+            }
+            return null;
+        }).filter(item => item && item.category && item.question && item.answer);
+        
+        if (allFAQs.length === 0) {
+            document.getElementById('faq-container').innerHTML = '<div class="error">No FAQs found in Google Sheet. Please check your sheet format.</div>';
+            return;
+        }
+        
+        // Get unique categories in order
+        const categories = [...new Set(allFAQs.map(f => f.category))];
+        
+        renderTabs(categories);
+        currentCategory = categories[0];
+        renderFAQs(currentCategory);
+    }
+
+    function renderTabs(categories) {
+        const tabsContainer = document.getElementById('tabs-container');
         let html = '';
-        let globalCounter = 1;
+        
+        categories.forEach((cat, index) => {
+            const shortName = categoryShortNames[cat] || cat;
+            const isActive = index === 0 ? 'active' : '';
+            html += `<button class="tab-button ${isActive}" onclick="selectCategory(event, '${cat}')">${shortName}</button>`;
+        });
+        
+        tabsContainer.innerHTML = html;
+    }
 
-        cats.forEach(cat => {
-            html += `<div class="cat-title">${cat}</div>`;
-            DATA.filter(item => item.c === cat).forEach((item) => {
-                const uniqueID = "faq-item-" + globalCounter;
-                html += `
+    function selectCategory(event, category) {
+        currentCategory = category;
+        
+        // Update active tab
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        renderFAQs(category);
+    }
+
+    function renderFAQs(category) {
+        const container = document.getElementById('faq-container');
+        const categoryFAQs = allFAQs.filter(f => f.category === category);
+        
+        if (categoryFAQs.length === 0) {
+            container.innerHTML = '<p>No FAQs in this category.</p>';
+            return;
+        }
+        
+        let html = '';
+        categoryFAQs.forEach((faq, index) => {
+            const uniqueID = `faq-${category}-${index}`;
+            html += `
                 <div class="faq-item" id="${uniqueID}">
                     <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
-                        <span class="badge">${globalCounter}</span>
-                        <span>${item.q}</span>
+                        <span>${faq.question}</span>
                     </div>
                     <div class="faq-a">
-                        <div class="faq-answer-content">${item.a}</div>
+                        <div class="faq-answer-content">${convertLinksToHTML(faq.answer)}</div>
                     </div>
                 </div>`;
-                globalCounter++;
-            });
         });
+        
         container.innerHTML = html;
+    }
+
+    function convertLinksToHTML(text) {
+        // Convert URLs in text to clickable links
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
     }
 
     function toggleFAQ(id) {
@@ -96,7 +226,7 @@
         element.classList.toggle('open');
     }
 
-    window.onload = renderFAQs;
+    window.onload = loadFAQs;
 </script>
 </body>
 </html>
