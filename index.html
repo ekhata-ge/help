@@ -74,36 +74,161 @@
 
 <script>
     // Google Sheet ID
-    const SHEET_ID = "1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
-    const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
-    
-    let allFAQs = [];
-    let currentCategory = null;
+    // Google Sheet ID
+const SHEET_ID = "1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
+const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
-    async function loadFAQs() {
-        try {
-            const response = await fetch(EXPORT_URL);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+let allFAQs = [];
+let currentCategory = "All Questions"; // Set default to All Questions
+
+async function loadFAQs() {
+    try {
+        const response = await fetch(EXPORT_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        
+        const csvText = await response.text();
+        parseCSV(csvText);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('faq-container').innerHTML = `
+            <div class="error">
+                ⚠️ Unable to load FAQs from Google Sheet<br><br>
+                <strong>This will work perfectly on GitHub Pages!</strong>
+            </div>
+        `;
+    }
+}
+
+function parseCSV(csvText) {
+    const lines = csvText.trim().split('\n');
+    if (lines.length < 2) {
+        showError('Sheet is empty');
+        return;
+    }
+
+    allFAQs = [];
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const fields = parseCSVLine(line);
+        if (fields.length >= 3) {
+            const category = fields[0].trim();
+            const question = fields[1].trim();
+            const answer = fields[2].trim();
+            if (category && question && answer) {
+                allFAQs.push({ category, question, answer });
             }
-            
-            const csvText = await response.text();
-            console.log('CSV loaded, length:', csvText.length);
-            
-            parseCSV(csvText);
-            
-        } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('faq-container').innerHTML = `
-                <div class="error">
-                    ⚠️ Unable to load FAQs from Google Sheet<br><br>
-                    <strong>This will work perfectly on GitHub Pages!</strong><br><br>
-                    To test: Deploy to GitHub and visit your live site.
-                </div>
-            `;
         }
     }
+
+    if (allFAQs.length === 0) {
+        showError(`No valid FAQs found. Check sheet format.`);
+        return;
+    }
+
+    // Create category list and prepend "All Questions"
+    const categories = ["All Questions"]; 
+    allFAQs.forEach((faq) => {
+        if (!categories.includes(faq.category)) {
+            categories.push(faq.category);
+        }
+    });
+
+    renderSidebar(categories);
+    renderFAQs("All Questions"); // Initialize view with all questions
+}
+
+function parseCSVLine(line) {
+    const fields = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        if (char === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+                current += '"';
+                i++;
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } else if (char === ',' && !inQuotes) {
+            fields.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    fields.push(current);
+    return fields;
+}
+
+function showError(message) {
+    document.getElementById('faq-container').innerHTML = `<div class="error">${message}</div>`;
+}
+
+function renderSidebar(categories) {
+    const sidebar = document.getElementById('sidebar');
+    let html = '';
+    categories.forEach((cat) => {
+        // Mark "All Questions" as active by default
+        const isActive = cat === "All Questions" ? 'active' : '';
+        html += `<button class="cat-button ${isActive}" onclick="selectCategory(event, '${cat}')">${cat}</button>`;
+    });
+    sidebar.innerHTML = html;
+}
+
+function selectCategory(event, category) {
+    currentCategory = category;
+    document.querySelectorAll('.cat-button').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    renderFAQs(category);
+}
+
+function renderFAQs(category) {
+    const container = document.getElementById('faq-container');
+    
+    // Logic change: If "All Questions", show everything. Otherwise, filter.
+    const categoryFAQs = category === "All Questions" 
+        ? allFAQs 
+        : allFAQs.filter(f => f.category === category);
+
+    if (categoryFAQs.length === 0) {
+        container.innerHTML = '<p>No FAQs found.</p>';
+        return;
+    }
+
+    let html = '';
+    categoryFAQs.forEach((faq, index) => {
+        const uniqueID = `faq-item-${index}`;
+        html += `
+            <div class="faq-item" id="${uniqueID}">
+                <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
+                    <span class="badge">${index + 1}</span>
+                    <span>${faq.question}</span>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-answer-content">
+                        ${category === "All Questions" ? `<small style="color:#0d3b6e; display:block; margin-bottom:5px;">Category: ${faq.category}</small>` : ''}
+                        ${convertLinksToHTML(faq.answer)}
+                    </div>
+                </div>
+            </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function convertLinksToHTML(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+}
+
+function toggleFAQ(id) {
+    const element = document.getElementById(id);
+    element.classList.toggle('open');
+}
+
+window.onload = loadFAQs;
 
     function parseCSV(csvText) {
         const lines = csvText.trim().split('\n');
