@@ -5,76 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Khata Help - Godrej Eternity</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7f6; padding: 20px; }
         .widget { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header { background: #0d3b6e; color: #fff; padding: 25px; text-align: center; }
-        .header h2 { font-size: 24px; margin-bottom: 5px; }
-        .tabs { display: flex; background: #eee; border-bottom: 1px solid #ccc; }
-        .tab { flex: 1; padding: 15px; cursor: pointer; border: none; font-weight: bold; color: #555; font-size: 14px; }
-        .tab.active { background: #fff; color: #0d3b6e; border-bottom: 3px solid #0d3b6e; }
-        .content { padding: 25px; min-height: 500px; }
-        .panel { display: none; }
-        .panel.active { display: block; }
-        .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 20px; padding: 10px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
-        .cat-title { font-size: 18px; color: #0d3b6e; margin: 25px 0 12px; font-weight: bold; border-bottom: 2px solid #0d3b6e; padding-bottom: 5px; text-transform: uppercase; }
+        .header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
+        .header h2 { font-size: 28px; margin-bottom: 8px; }
+        .header p { font-size: 16px; opacity: 0.95; }
+        .content { padding: 25px; }
+        .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 25px; padding: 12px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
+        .cat-title { font-size: 18px; color: #0d3b6e; margin: 30px 0 15px; font-weight: bold; border-bottom: 2px solid #0d3b6e; padding-bottom: 8px; text-transform: uppercase; }
         .faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
-        .faq-q { padding: 16px; cursor: pointer; font-weight: 600; background: #fff; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; }
+        .faq-q { padding: 16px; cursor: pointer; font-weight: 600; background: #fff; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; user-select: none; transition: all 0.2s ease; }
         .faq-q:hover { background: #f9fbff; }
-        .faq-a { padding: 20px; display: none; background: #fafafa; border-top: 1px solid #ddd; line-height: 1.7; font-size: 14px; color: #333; }
-        .faq-item.open .faq-a { display: block; }
+        .faq-q::before { content: "▶"; display: inline-block; width: 20px; color: #0d3b6e; transition: transform 0.2s ease; flex-shrink: 0; }
+        .faq-item.open .faq-q::before { transform: rotate(90deg); }
+        .faq-a { padding: 0 16px; max-height: 0; overflow: hidden; transition: all 0.3s ease; }
+        .faq-item.open .faq-a { padding: 16px; max-height: 500px; }
+        .faq-answer-content { background: #fafafa; padding: 16px; border-radius: 6px; line-height: 1.7; font-size: 14px; color: #333; }
         .faq-item.open .faq-q { background: #f0f5ff; border-radius: 8px 8px 0 0; }
-        .badge { background: #0d3b6e; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; min-width: 25px; text-align: center; }
-        .msg-box { height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px; background: #fff; }
-        .msg { padding: 12px 16px; border-radius: 12px; font-size: 14px; max-width: 85%; line-height: 1.5; }
-        .msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; border-bottom-right-radius: 2px; }
-        .msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border: 1px solid #ddd; border-bottom-left-radius: 2px; }
-        .msg.error { align-self: flex-start; background: #ffe8e8; color: #c41e1e; border: 1px solid #ffcccc; }
-        .input-area { display: flex; gap: 10px; }
-        input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
-        input:disabled { background: #f5f5f5; cursor: not-allowed; }
-        button.send { padding: 12px 25px; background: #0d3b6e; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        button.send:disabled { background: #999; cursor: not-allowed; }
-        a { color: #1a5cb5; text-decoration: underline; font-weight: 500; cursor: pointer; }
-        .chat-nudge { text-align: center; margin-top: 30px; padding: 15px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
+        .badge { background: #0d3b6e; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; min-width: 30px; text-align: center; flex-shrink: 0; }
+        a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
+        a:hover { color: #0d3b6e; }
+        .footer { text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; color: #666; font-size: 13px; }
     </style>
 </head>
 <body>
 
 <div class="widget">
     <div class="header">
-        <h2>E-Khata Help Assistant</h2>
+        <h2>E-Khata Help Center</h2>
         <p>Official Resource for Godrej Eternity Residents</p>
     </div>
-    <div class="tabs">
-        <button class="tab active" id="btn-faq" onclick="showTab('faq')">BROWSE ALL FAQs</button>
-        <button class="tab" id="btn-chat" onclick="showTab('chat')">ASK AI ASSISTANT</button>
-    </div>
+    
     <div class="content">
-        <div id="panel-faq" class="panel active">
-            <div class="desc">Prepared by Godrej Eternity e-Khata Volunteers Team</div>
-            <div id="faq-container"></div>
-            <div class="chat-nudge">
-                Need more specific answers? <a onclick="showTab('chat')">Click here to ask our AI Assistant</a>
-            </div>
-        </div>
-        <div id="panel-chat" class="panel">
-            <div class="msg-box" id="msg-box">
-                <div class="msg bot">Namaste! I am your AI assistant. Ask me anything about the E-Khata process.</div>
-            </div>
-            <div class="input-area">
-                <input type="text" id="user-input" placeholder="Type your question here..." onkeydown="if(event.key==='Enter')sendToAI()">
-                <button class="send" onclick="sendToAI()">Send</button>
-            </div>
+        <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
+        
+        <div id="faq-container"></div>
+        
+        <div class="footer">
+            <p>Last updated: April 2026 | For additional help, visit the official BBMP portal</p>
         </div>
     </div>
 </div>
 
 <script>
-    // NEW API KEY (restricted to your GitHub domain)
-    const API_KEY = "AIzaSyAS1FLUPSNmI2nqLjGoXqGHMZr69zn-CcM";
-    // Using gemini-1.5-pro (stable and widely available)
-    const MODEL = "gemini-1.5-pro";
-
     const DATA = [
         { c: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections select Sale/Transferred. If you cannot progress due to a technical issue, ensure the names match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
         { c: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number. How can this be sorted out?", a: "The GBA Helpdesk advised proceeding with the ePID that contains all your details (even if the address is missing). Ignore the newly generated ePID that has only the address." },
@@ -82,21 +56,14 @@
         { c: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No book'. The 18-digit Gram Panchayat ID is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO has signed; if not, you must attach the manual Challan. Rest of the procedure for draft khata to final e-Khata remains the same." },
         { c: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "Enter the percentage of ownership (e.g., 50% for joint owners). If you already have your e-Khata, update it here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Portal</a>." },
         { c: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Ask for corrections in final khata using the 'Corrections' link once logged in. Raising a helpdesk ticket or visiting the ARO office can resolve this. It typically takes 7 to 10 days for approval after the correction is submitted." },
-        { c: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br>1. <b>Self-Apply:</b> Use official videos and apply yourself.<br>2. <b>Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br>3. <b>Janasevaka:</b> Available in useful links on the official website.<br>4. <b>Bangalore One:</b> Visit any center for online application assistance." },
-        { c: "General Information", q: "What is the address for the BBMP Ward and ARO offices?", a: "<b>Ward Office:</b> 15/3, Kanakapura Main Rd, Talaghattapura, 560109.<br><b>ARO Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
+        { c: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br><br><b>1. Self-Apply:</b> Use official videos and apply yourself.<br><b>2. Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br><b>3. Janasevaka:</b> Available in useful links on the official website.<br><b>4. Bangalore One:</b> Visit any center for online application assistance." },
+        { c: "General Information", q: "What is the address for the BBMP Ward and ARO offices?", a: "<b>Ward Office:</b> 15/3, Kanakapura Main Rd, Talaghattapura, 560109.<br><br><b>ARO Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
         { c: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit the portal and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat ID from your Sale Deed." },
         { c: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "In Ward 198, search by 'Book No' and enter 'A125'. Search for your Assessment or flat number. If the flat number is not immediately visible, click the page number hyperlinks to find the specific listing." },
-        { c: "Status & Search", q: "How do I find the status of a submitted e-Khata and where do I download it?", a: "Status check: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Link</a><br>Download approved e-Khata: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Link</a>" },
-        { c: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Doc 1:</b> BMICAPA/SS/RD/13/20152016 (Dated 13-10-2015).<br><b>Doc 2:</b> BMICPA SITE PLAN (Dated 21-04-2016). Reference ID: 1501272677303." },
-        { c: "Documents", q: "Where can I find official digital copies of CC, Building License, and Site Plan?", a: "CC/License: <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>PDF Link</a> | Plan: <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>PDF Link</a>" }
+        { c: "Status & Search", q: "How do I find the status of a submitted e-Khata and where do I download it?", a: "Status check: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Check Status Here</a><br><br>Download approved e-Khata: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Download Here</a>" },
+        { c: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Doc 1:</b> BMICAPA/SS/RD/13/20152016 (Dated 13-10-2015)<br><br><b>Doc 2:</b> BMICPA SITE PLAN (Dated 21-04-2016)<br>Reference ID: 1501272677303" },
+        { c: "Documents", q: "Where can I find official digital copies of CC, Building License, and Site Plan?", a: "<b>CC/License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view' target='_blank'>View PDF</a><br><br><b>Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view' target='_blank'>View PDF</a>" }
     ];
-
-    function showTab(t) {
-        document.getElementById('panel-faq').classList.toggle('active', t === 'faq');
-        document.getElementById('panel-chat').classList.toggle('active', t === 'chat');
-        document.getElementById('btn-faq').classList.toggle('active', t === 'faq');
-        document.getElementById('btn-chat').classList.toggle('active', t === 'chat');
-    }
 
     function renderFAQs() {
         const container = document.getElementById('faq-container');
@@ -110,11 +77,13 @@
                 const uniqueID = "faq-item-" + globalCounter;
                 html += `
                 <div class="faq-item" id="${uniqueID}">
-                    <div class="faq-q" onclick="document.getElementById('${uniqueID}').classList.toggle('open')">
+                    <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
                         <span class="badge">${globalCounter}</span>
                         <span>${item.q}</span>
                     </div>
-                    <div class="faq-a">${item.a}</div>
+                    <div class="faq-a">
+                        <div class="faq-answer-content">${item.a}</div>
+                    </div>
                 </div>`;
                 globalCounter++;
             });
@@ -122,65 +91,9 @@
         container.innerHTML = html;
     }
 
-    async function sendToAI() {
-        const input = document.getElementById('user-input');
-        const box = document.getElementById('msg-box');
-        const sendBtn = document.querySelector('button.send');
-        const q = input.value.trim();
-        
-        if(!q) return;
-        
-        input.value = '';
-        input.disabled = true;
-        sendBtn.disabled = true;
-        
-        box.innerHTML += `<div class="msg user">${q}</div>`;
-        const botDiv = document.createElement('div');
-        botDiv.className = 'msg bot';
-        botDiv.textContent = 'Searching records...';
-        box.appendChild(botDiv);
-        box.scrollTop = box.scrollHeight;
-
-        try {
-            const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
-            const prompt = "You are a helpful AI assistant for E-Khata (property record) questions. Use this information to answer: " + contextText + "\n\nQuestion: " + q + "\n\nProvide a clear, concise answer suitable for seniors. If the answer is not in the provided information, say so politely.";
-            
-            // Using v1beta endpoint with gemini-2.0-flash
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ 
-                    contents: [{ 
-                        parts: [{ text: prompt }] 
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        maxOutputTokens: 500
-                    }
-                })
-            });
-            
-            const json = await res.json();
-            
-            if (json.error) {
-                botDiv.className = 'msg error';
-                botDiv.textContent = "API Error: " + (json.error.message || "Unknown error. Please try again.");
-            } else if (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts && json.candidates[0].content.parts[0]) {
-                botDiv.className = 'msg bot';
-                botDiv.innerHTML = json.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-            } else {
-                botDiv.className = 'msg error';
-                botDiv.textContent = "No response received. Please try again.";
-            }
-        } catch(e) { 
-            botDiv.className = 'msg error';
-            botDiv.textContent = "Error connecting: " + e.message + ". Please refresh the page and try again."; 
-        }
-        
-        input.disabled = false;
-        sendBtn.disabled = false;
-        input.focus();
-        box.scrollTop = box.scrollHeight;
+    function toggleFAQ(id) {
+        const element = document.getElementById(id);
+        element.classList.toggle('open');
     }
 
     window.onload = renderFAQs;
