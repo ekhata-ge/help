@@ -143,30 +143,49 @@
     }
 
     async function gbaSend() {
-        const input = document.getElementById('gba-chat-input');
-        const msgs = document.getElementById('gba-messages');
-        const q = input.value.trim();
-        if(!q) return;
-        input.value = '';
-        msgs.innerHTML += `<div class="gba-msg user">${q}</div>`;
-        const botDiv = document.createElement('div');
-        botDiv.className = 'gba-msg bot';
-        botDiv.textContent = 'Searching records...';
-        msgs.appendChild(botDiv);
-        msgs.scrollTop = msgs.scrollHeight;
+    const input = document.getElementById('gba-chat-input');
+    const msgs = document.getElementById('gba-messages');
+    const q = input.value.trim();
+    if(!q) return;
+    
+    input.value = '';
+    msgs.innerHTML += `<div class="gba-msg user">${q}</div>`;
+    const botDiv = document.createElement('div');
+    botDiv.className = 'gba-msg bot';
+    botDiv.textContent = 'Searching records...';
+    msgs.appendChild(botDiv);
+    msgs.scrollTop = msgs.scrollHeight;
 
-        try {
-            const contextText = GBA_FAQS.map((f, i) => (i+1) + ". " + f.q + " " + f.a).join(" ");
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ contents: [{ parts: [{ text: "Answer using this context: " + contextText + ". Question: " + q }] }] })
-            });
-            const data = await resp.json();
+    try {
+        const contextText = GBA_FAQS.map((f, i) => (i+1) + ". " + f.q + " " + f.a).join(" ");
+        
+        // This is the most stable URL format for Gemini 1.5 Flash
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        
+        const resp = await fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
+                contents: [{ 
+                    parts: [{ text: "Use this FAQ context: " + contextText + "\n\nQuestion: " + q }] 
+                }] 
+            })
+        });
+
+        const data = await resp.json();
+        
+        if (resp.ok) {
             botDiv.innerHTML = data.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-        } catch(e) { botDiv.textContent = "I'm having trouble connecting to the server. Please try again or check the manual FAQ list."; }
-        msgs.scrollTop = msgs.scrollHeight;
+        } else {
+            // This will show us the REAL error message in the chat box
+            console.error("API Error Details:", data);
+            botDiv.textContent = "Error: " + (data.error ? data.error.message : "Status " + resp.status);
+        }
+    } catch(e) { 
+        botDiv.textContent = "Network error. Please check your internet connection."; 
     }
+    msgs.scrollTop = msgs.scrollHeight;
+}   
     window.onload = gbaRender;
 </script>
 </body>
