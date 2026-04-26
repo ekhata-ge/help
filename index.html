@@ -28,9 +28,12 @@
         .msg { padding: 12px 16px; border-radius: 12px; font-size: 14px; max-width: 85%; line-height: 1.5; }
         .msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; border-bottom-right-radius: 2px; }
         .msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border: 1px solid #ddd; border-bottom-left-radius: 2px; }
+        .msg.error { align-self: flex-start; background: #ffe8e8; color: #c41e1e; border: 1px solid #ffcccc; }
         .input-area { display: flex; gap: 10px; }
         input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
+        input:disabled { background: #f5f5f5; cursor: not-allowed; }
         button.send { padding: 12px 25px; background: #0d3b6e; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        button.send:disabled { background: #999; cursor: not-allowed; }
         a { color: #1a5cb5; text-decoration: underline; font-weight: 500; cursor: pointer; }
         .chat-nudge { text-align: center; margin-top: 30px; padding: 15px; border-top: 1px solid #eee; font-size: 14px; color: #666; }
     </style>
@@ -67,9 +70,10 @@
 </div>
 
 <script>
-    const API_KEY = "AIzaSyBdzzmxGx436YjLgm91bN8JSgeINuUvMPI";
-    // FIXED: Changed from 'gemini-1.5-flash-latest' to 'gemini-1.5-flash' (the stable version that works)
-    const MODEL = "gemini-1.5-flash";
+    // NEW API KEY (restricted to your GitHub domain)
+    const API_KEY = "AIzaSyAS1FLUPSNmI2nqLjGoXqGHMZr69zn-CcM";
+    // Using the stable gemini-2.0-flash model
+    const MODEL = "gemini-2.0-flash";
 
     const DATA = [
         { c: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections select Sale/Transferred. If you cannot progress due to a technical issue, ensure the names match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
@@ -121,9 +125,15 @@
     async function sendToAI() {
         const input = document.getElementById('user-input');
         const box = document.getElementById('msg-box');
+        const sendBtn = document.querySelector('button.send');
         const q = input.value.trim();
+        
         if(!q) return;
+        
         input.value = '';
+        input.disabled = true;
+        sendBtn.disabled = true;
+        
         box.innerHTML += `<div class="msg user">${q}</div>`;
         const botDiv = document.createElement('div');
         botDiv.className = 'msg bot';
@@ -133,20 +143,43 @@
 
         try {
             const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
-            const prompt = "Use this info: " + contextText + ". Answer politely for seniors: " + q;
-            // FIXED: Using v1beta (more reliable) and the stable 'gemini-1.5-flash' model name
+            const prompt = "You are a helpful AI assistant for E-Khata (property record) questions. Use this information to answer: " + contextText + "\n\nQuestion: " + q + "\n\nProvide a clear, concise answer suitable for seniors. If the answer is not in the provided information, say so politely.";
+            
+            // Using v1beta endpoint with gemini-2.0-flash
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                body: JSON.stringify({ 
+                    contents: [{ 
+                        parts: [{ text: prompt }] 
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 500
+                    }
+                })
             });
+            
             const json = await res.json();
+            
             if (json.error) {
-                botDiv.textContent = "API Error: " + json.error.message;
-            } else {
+                botDiv.className = 'msg error';
+                botDiv.textContent = "API Error: " + (json.error.message || "Unknown error. Please try again.");
+            } else if (json.candidates && json.candidates[0] && json.candidates[0].content && json.candidates[0].content.parts && json.candidates[0].content.parts[0]) {
+                botDiv.className = 'msg bot';
                 botDiv.innerHTML = json.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
+            } else {
+                botDiv.className = 'msg error';
+                botDiv.textContent = "No response received. Please try again.";
             }
-        } catch(e) { botDiv.textContent = "Error connecting. Please refresh the page."; }
+        } catch(e) { 
+            botDiv.className = 'msg error';
+            botDiv.textContent = "Error connecting: " + e.message + ". Please refresh the page and try again."; 
+        }
+        
+        input.disabled = false;
+        sendBtn.disabled = false;
+        input.focus();
         box.scrollTop = box.scrollHeight;
     }
 
