@@ -7,102 +7,165 @@
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7f6; padding: 20px; }
 
-.widget { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f4f7f6;
+    padding: 20px;
+}
 
-.header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
+.widget {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
 
-.content { padding: 25px; }
+.header {
+    background: #0d3b6e;
+    color: #fff;
+    padding: 25px;
+    text-align: center;
+}
+
+.content {
+    padding: 20px;
+}
 
 .desc {
     font-size: 13px;
-    font-style: italic;
     color: #0d3b6e;
     margin-bottom: 15px;
-    padding: 12px;
+    padding: 10px;
     background: #eef4fb;
-    border-left: 4px solid #0d3b6e;
 }
 
-/* Sticky Tabs */
-.tabs-container {
-    position: sticky;
-    top: 0;
-    background: white;
-    z-index: 10;
-    padding-bottom: 10px;
+/* Layout */
+.layout {
+    display: flex;
+    gap: 20px;
 }
 
-.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+/* Sidebar tabs */
+.sidebar {
+    width: 220px;
+    border-right: 1px solid #eee;
+}
 
 .tab {
-    padding: 8px 14px;
-    border-radius: 20px;
-    border: 1px solid #0d3b6e;
-    cursor: pointer;
-    font-size: 13px;
-    color: #0d3b6e;
-    background: #fff;
-}
-
-.tab.active { background: #0d3b6e; color: #fff; }
-
-/* Search */
-.search-box {
-    width: 100%;
     padding: 10px;
+    cursor: pointer;
     border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
 }
 
-/* Controls */
-.controls {
-    display: flex;
-    gap: 10px;
+.tab:hover {
+    background: #f0f5ff;
+}
+
+.tab.active {
+    background: #0d3b6e;
+    color: white;
+}
+
+/* Right content */
+.main {
+    flex: 1;
+}
+
+/* Rich search */
+.search-wrapper {
+    position: relative;
     margin-bottom: 15px;
 }
 
-.btn {
-    padding: 6px 12px;
-    border: 1px solid #0d3b6e;
-    border-radius: 6px;
-    background: white;
-    cursor: pointer;
-    font-size: 12px;
+.search-box {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-box:focus {
+    border-color: #0d3b6e;
+    box-shadow: 0 0 0 2px rgba(13,59,110,0.1);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #666;
 }
 
 /* FAQ */
-.faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
-.faq-q { padding: 16px; cursor: pointer; display: flex; gap: 10px; font-weight: 600; }
-.faq-q::before { content: "▶"; color: #0d3b6e; transition: 0.2s; }
-.faq-item.open .faq-q::before { transform: rotate(90deg); }
+.faq-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
 
-.faq-a { max-height: 0; overflow: hidden; transition: 0.3s; }
-.faq-item.open .faq-a { max-height: 1000px; padding: 16px; }
+.faq-q {
+    padding: 14px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.faq-q::before {
+    content: "▶";
+    color: #0d3b6e;
+    transition: 0.2s;
+}
+
+.faq-item.open .faq-q::before {
+    transform: rotate(90deg);
+}
+
+.faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.faq-item.open .faq-a {
+    max-height: 1000px;
+    padding: 14px;
+}
 
 .faq-answer-content {
     background: #fafafa;
-    padding: 14px;
+    padding: 12px;
     border-radius: 6px;
     font-size: 14px;
-    line-height: 1.6;
 }
 
 .badge {
     background: #0d3b6e;
     color: #fff;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 4px;
     font-size: 12px;
-    min-width: 30px;
+    min-width: 28px;
     text-align: center;
 }
 
-.footer { text-align: center; padding: 20px; font-size: 13px; color: #666; }
+.footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 12px;
+    color: #666;
+}
 
-.loading { text-align: center; padding: 40px; }
+.loading { text-align: center; padding: 30px; }
 </style>
 </head>
 
@@ -115,8 +178,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
     </div>
 
     <div class="content">
-        <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
-        <div id="faq-container" class="loading">Loading FAQs...</div>
+        <div class="desc">📋 Prepared by Volunteers Team</div>
+        <div id="faq-container" class="loading">Loading...</div>
         <div class="footer">Last updated: April 2026</div>
     </div>
 </div>
@@ -130,29 +193,29 @@ let currentCategory = "All Questions";
 let currentSearch = "";
 
 /* LOAD */
-async function loadFAQs() {
+async function loadFAQs(){
     const res = await fetch(EXPORT_URL);
     const text = await res.text();
     parseCSV(text);
 }
 
 /* CSV PARSER */
-function parseCSV(text) {
-    const rows = [];
-    let row = [], field = '', inQuotes = false;
+function parseCSV(text){
+    const rows=[];
+    let row=[],field='',inQuotes=false;
 
-    for (let i=0;i<text.length;i++){
-        let c=text[i], n=text[i+1];
+    for(let i=0;i<text.length;i++){
+        let c=text[i],n=text[i+1];
 
-        if(c=='"' && inQuotes && n=='"'){ field+='"'; i++; }
-        else if(c=='"'){ inQuotes=!inQuotes; }
-        else if(c==',' && !inQuotes){ row.push(field); field=''; }
-        else if(c=='\n' && !inQuotes){ row.push(field); rows.push(row); row=[]; field=''; }
+        if(c=='"' && inQuotes && n=='"'){field+='"';i++;}
+        else if(c=='"'){inQuotes=!inQuotes;}
+        else if(c==',' && !inQuotes){row.push(field);field='';}
+        else if(c=='\n' && !inQuotes){row.push(field);rows.push(row);row=[];field='';}
         else field+=c;
     }
 
-    if(field) row.push(field);
-    if(row.length) rows.push(row);
+    if(field)row.push(field);
+    if(row.length)rows.push(row);
 
     allFAQs = rows.slice(1).map(r=>({
         category:r[0]?.trim(),
@@ -160,30 +223,28 @@ function parseCSV(text) {
         answer:r[2]?.trim()
     })).filter(f=>f.category && f.question && f.answer);
 
-    renderFAQs();
+    render();
 }
 
 /* RENDER */
-function renderFAQs() {
-    const container = document.getElementById('faq-container');
-    const categories = [...new Set(allFAQs.map(f=>f.category))];
+function render(){
+    const container=document.getElementById('faq-container');
+    const categories=[...new Set(allFAQs.map(f=>f.category))];
 
-    let html = `
-    <div class="tabs-container">
-        <input class="search-box" placeholder="Search questions..." oninput="handleSearch(this.value)">
-        
-        <div class="tabs">
+    let html=`
+    <div class="layout">
+        <div class="sidebar">
             <div class="tab ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
             ${categories.map(c=>`
                 <div class="tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
             `).join('')}
         </div>
 
-        <div class="controls">
-            <div class="btn" onclick="expandAll()">Expand All</div>
-            <div class="btn" onclick="collapseAll()">Collapse All</div>
-        </div>
-    </div>
+        <div class="main">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input class="search-box" placeholder="Search FAQs..." oninput="handleSearch(event)">
+            </div>
     `;
 
     let data = currentCategory==="All Questions"
@@ -191,17 +252,14 @@ function renderFAQs() {
         : allFAQs.filter(f=>f.category===currentCategory);
 
     if(currentSearch){
-        const s = currentSearch.toLowerCase();
-        data = data.filter(f =>
-            f.question.toLowerCase().includes(s) ||
-            f.answer.toLowerCase().includes(s)
-        );
+        let s=currentSearch.toLowerCase();
+        data=data.filter(f=>f.question.toLowerCase().includes(s)||f.answer.toLowerCase().includes(s));
     }
 
     let i=1;
 
     data.forEach(f=>{
-        html += `
+        html+=`
         <div class="faq-item" id="faq-${i}">
             <div class="faq-q" onclick="toggleFAQ('faq-${i}')">
                 <span class="badge">${i}</span>
@@ -214,37 +272,30 @@ function renderFAQs() {
         i++;
     });
 
-    container.innerHTML = html;
+    html+=`</div></div>`;
+    container.innerHTML=html;
 }
 
 /* EVENTS */
-function changeCategory(cat){
-    currentCategory = cat;
-    renderFAQs();
+function changeCategory(c){
+    currentCategory=c;
+    render();
 }
 
-function handleSearch(val){
-    currentSearch = val;
-    renderFAQs();
+function handleSearch(e){
+    currentSearch = e.target.value;
+    render();
 }
 
 function toggleFAQ(id){
     document.getElementById(id).classList.toggle("open");
 }
 
-function expandAll(){
-    document.querySelectorAll('.faq-item').forEach(e=>e.classList.add('open'));
-}
-
-function collapseAll(){
-    document.querySelectorAll('.faq-item').forEach(e=>e.classList.remove('open'));
-}
-
 function linkify(text){
     return text.replace(/https?:\/\/[^\s]+/g,u=>`<a href="${u}" target="_blank">${u}</a>`);
 }
 
-window.onload = loadFAQs;
+window.onload=loadFAQs;
 </script>
 
 </body>
