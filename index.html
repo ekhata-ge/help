@@ -68,12 +68,13 @@
 
 <script>
     const API_KEY = "AIzaSyBdzzmxGx436YjLgm91bN8JSgeINuUvMPI";
-    const MODEL = "gemini-1.5-flash";
+    // UPDATED MODEL NAME: Using the 'latest' alias for maximum compatibility
+    const MODEL = "gemini-1.5-flash-latest";
 
     const DATA = [
         { c: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections select Sale/Transferred. If you cannot progress due to a technical issue, ensure the names match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
         { c: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number. How can this be sorted out?", a: "The GBA Helpdesk advised proceeding with the ePID that contains all your details (even if the address is missing). Ignore the newly generated ePID that has only the address." },
-        { c: "Technical Issues", q: "Why is my property tax showing Rajarajeshwari Nagar/West zone when we are in South?", a: "This is a transition discrepancy between BBMP and GBA. Officially we are in South, but some records still show West. You do not need to worry about this label; it does not affect your legal status." },
+        { c: "Technical Issues", q: "Why is my property tax showing Rajarajeshwari Nagar/West zone when we are in South?", a: "This is a transition discrepancy between BBMP and GBA. Officially we are in South, but some records still show West. This does not affect your legal status." },
         { c: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No book'. The 18-digit Gram Panchayat ID is the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is alphanumeric. Check if ARO has signed; if not, you must attach the manual Challan. Rest of the procedure for draft khata to final e-Khata remains the same." },
         { c: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "Enter the percentage of ownership (e.g., 50% for joint owners). If you already have your e-Khata, update it here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Portal</a>." },
         { c: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Ask for corrections in final khata using the 'Corrections' link once logged in. Raising a helpdesk ticket or visiting the ARO office can resolve this. It typically takes 7 to 10 days for approval after the correction is submitted." },
@@ -133,7 +134,7 @@
         try {
             const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
             const prompt = "Use this info: " + contextText + ". Answer politely for seniors: " + q;
-            // UPDATED: Now using v1 instead of v1beta to match your new key
+            // Using v1 and the 'latest' alias
             const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
