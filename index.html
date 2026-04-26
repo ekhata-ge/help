@@ -1,55 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Khata Help - Godrej Eternity</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7f6; padding: 20px; }
-        .widget { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
-        .header h2 { font-size: 28px; margin-bottom: 8px; }
-        .header p { font-size: 16px; opacity: 0.95; }
-        
-        .main-container { display: flex; }
-        
-        .sidebar { width: 180px; background: #f9f9f9; border-right: 2px solid #e0e0e0; padding: 20px 0; }
-        .cat-button { display: block; width: 100%; padding: 12px 15px; text-align: left; background: none; border: none; cursor: pointer; color: #555; font-weight: 600; font-size: 14px; border-left: 4px solid transparent; transition: all 0.2s ease; writing-mode: horizontal-tb; }
-        .cat-button:hover { background: #f0f5ff; border-left-color: #0d3b6e; }
-        .cat-button.active { background: #e8f4f8; color: #0d3b6e; border-left-color: #0d3b6e; }
-        
-        .content { flex: 1; padding: 25px; min-height: 500px; }
-        .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 25px; padding: 12px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
-        
-        .faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
-        .faq-q { padding: 16px; cursor: pointer; font-weight: 600; background: #fff; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; user-select: none; transition: all 0.2s ease; }
-        .faq-q:hover { background: #f9fbff; }
-        .faq-q::before { content: "▶"; display: inline-block; width: 20px; color: #0d3b6e; transition: transform 0.2s ease; flex-shrink: 0; }
-        .faq-item.open .faq-q::before { transform: rotate(90deg); }
-        .faq-a { padding: 0 16px; max-height: 0; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item.open .faq-a { padding: 16px; max-height: 1000px; }
-        .faq-answer-content { background: #fafafa; padding: 16px; border-radius: 6px; line-height: 1.7; font-size: 14px; color: #333; }
-        .faq-item.open .faq-q { background: #f0f5ff; border-radius: 8px 8px 0 0; }
-        
-        .badge { background: #0d3b6e; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; min-width: 30px; text-align: center; flex-shrink: 0; }
-        
-        a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
-        a:hover { color: #0d3b6e; }
-        
-        .footer { text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; color: #666; font-size: 13px; }
-        .loading { text-align: center; padding: 40px; color: #666; }
-        .error { background: #ffe8e8; color: #c41e1e; padding: 15px; border-radius: 6px; margin: 20px 0; }
-        
-        @media (max-width: 768px) {
-            .main-container { flex-direction: column; }
-            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid #e0e0e0; padding: 10px 0; display: flex; flex-wrap: wrap; }
-            .cat-button { width: auto; padding: 10px 15px; border-left: none; border-bottom: 3px solid transparent; }
-            .cat-button:hover { border-bottom-color: #0d3b6e; border-left: none; }
-            .cat-button.active { border-bottom-color: #0d3b6e; border-left: none; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Khata Help - Godrej Eternity</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7f6; padding: 20px; }
+
+.widget { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+.header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
+
+.content { padding: 25px; }
+
+.desc {
+    font-size: 13px;
+    font-style: italic;
+    color: #0d3b6e;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #eef4fb;
+    border-left: 4px solid #0d3b6e;
+}
+
+/* Sticky Tabs */
+.tabs-container {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding-bottom: 10px;
+}
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+
+.tab {
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #0d3b6e;
+    cursor: pointer;
+    font-size: 13px;
+    color: #0d3b6e;
+    background: #fff;
+}
+
+.tab.active { background: #0d3b6e; color: #fff; }
+
+/* Search */
+.search-box {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: 1px solid #0d3b6e;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* FAQ */
+.faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
+.faq-q { padding: 16px; cursor: pointer; display: flex; gap: 10px; font-weight: 600; }
+.faq-q::before { content: "▶"; color: #0d3b6e; transition: 0.2s; }
+.faq-item.open .faq-q::before { transform: rotate(90deg); }
+
+.faq-a { max-height: 0; overflow: hidden; transition: 0.3s; }
+.faq-item.open .faq-a { max-height: 1000px; padding: 16px; }
+
+.faq-answer-content {
+    background: #fafafa;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.badge {
+    background: #0d3b6e;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.footer { text-align: center; padding: 20px; font-size: 13px; color: #666; }
+
+.loading { text-align: center; padding: 40px; }
+</style>
 </head>
+
 <body>
 
 <div class="widget">
@@ -57,331 +113,139 @@
         <h2>E-Khata Help Center</h2>
         <p>Resource for Godrej Eternity Residents</p>
     </div>
-    
-    <div class="main-container">
-        <div class="sidebar" id="sidebar"></div>
-        
-        <div class="content">
-            <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
-            <div id="faq-container" class="loading">Loading FAQs...</div>
-            
-            <div class="footer">
-                <p>Last updated: April 2026 | For additional help, visit the official BBMP portal</p>
-            </div>
-        </div>
+
+    <div class="content">
+        <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
+        <div id="faq-container" class="loading">Loading FAQs...</div>
+        <div class="footer">Last updated: April 2026</div>
     </div>
 </div>
 
 <script>
-    // Google Sheet ID
-    // Google Sheet ID
 const SHEET_ID = "1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
 const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
 let allFAQs = [];
-let currentCategory = "All Questions"; // Set default to All Questions
+let currentCategory = "All Questions";
+let currentSearch = "";
 
+/* LOAD */
 async function loadFAQs() {
-    try {
-        const response = await fetch(EXPORT_URL);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        const csvText = await response.text();
-        parseCSV(csvText);
-        
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('faq-container').innerHTML = `
-            <div class="error">
-                ⚠️ Unable to load FAQs from Google Sheet<br><br>
-                <strong>This will work perfectly on GitHub Pages!</strong>
-            </div>
-        `;
-    }
+    const res = await fetch(EXPORT_URL);
+    const text = await res.text();
+    parseCSV(text);
 }
 
-function parseCSV(csvText) {
-    const lines = csvText.trim().split('\n');
-    if (lines.length < 2) {
-        showError('Sheet is empty');
-        return;
+/* CSV PARSER */
+function parseCSV(text) {
+    const rows = [];
+    let row = [], field = '', inQuotes = false;
+
+    for (let i=0;i<text.length;i++){
+        let c=text[i], n=text[i+1];
+
+        if(c=='"' && inQuotes && n=='"'){ field+='"'; i++; }
+        else if(c=='"'){ inQuotes=!inQuotes; }
+        else if(c==',' && !inQuotes){ row.push(field); field=''; }
+        else if(c=='\n' && !inQuotes){ row.push(field); rows.push(row); row=[]; field=''; }
+        else field+=c;
     }
 
-    allFAQs = [];
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
-        const fields = parseCSVLine(line);
-        if (fields.length >= 3) {
-            const category = fields[0].trim();
-            const question = fields[1].trim();
-            const answer = fields[2].trim();
-            if (category && question && answer) {
-                allFAQs.push({ category, question, answer });
-            }
-        }
-    }
+    if(field) row.push(field);
+    if(row.length) rows.push(row);
 
-    if (allFAQs.length === 0) {
-        showError(`No valid FAQs found. Check sheet format.`);
-        return;
-    }
+    allFAQs = rows.slice(1).map(r=>({
+        category:r[0]?.trim(),
+        question:r[1]?.trim(),
+        answer:r[2]?.trim()
+    })).filter(f=>f.category && f.question && f.answer);
 
-    // Create category list and prepend "All Questions"
-    const categories = ["All Questions"]; 
-    allFAQs.forEach((faq) => {
-        if (!categories.includes(faq.category)) {
-            categories.push(faq.category);
-        }
-    });
-
-    renderSidebar(categories);
-    renderFAQs("All Questions"); // Initialize view with all questions
+    renderFAQs();
 }
 
-function parseCSVLine(line) {
-    const fields = [];
-    let current = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-                current += '"';
-                i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
-        } else if (char === ',' && !inQuotes) {
-            fields.push(current);
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    fields.push(current);
-    return fields;
-}
-
-function showError(message) {
-    document.getElementById('faq-container').innerHTML = `<div class="error">${message}</div>`;
-}
-
-function renderSidebar(categories) {
-    const sidebar = document.getElementById('sidebar');
-    let html = '';
-    categories.forEach((cat) => {
-        // Mark "All Questions" as active by default
-        const isActive = cat === "All Questions" ? 'active' : '';
-        html += `<button class="cat-button ${isActive}" onclick="selectCategory(event, '${cat}')">${cat}</button>`;
-    });
-    sidebar.innerHTML = html;
-}
-
-function selectCategory(event, category) {
-    currentCategory = category;
-    document.querySelectorAll('.cat-button').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    renderFAQs(category);
-}
-
-function renderFAQs(category) {
+/* RENDER */
+function renderFAQs() {
     const container = document.getElementById('faq-container');
-    
-    // Logic change: If "All Questions", show everything. Otherwise, filter.
-    const categoryFAQs = category === "All Questions" 
-        ? allFAQs 
-        : allFAQs.filter(f => f.category === category);
+    const categories = [...new Set(allFAQs.map(f=>f.category))];
 
-    if (categoryFAQs.length === 0) {
-        container.innerHTML = '<p>No FAQs found.</p>';
-        return;
+    let html = `
+    <div class="tabs-container">
+        <input class="search-box" placeholder="Search questions..." oninput="handleSearch(this.value)">
+        
+        <div class="tabs">
+            <div class="tab ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
+            ${categories.map(c=>`
+                <div class="tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
+            `).join('')}
+        </div>
+
+        <div class="controls">
+            <div class="btn" onclick="expandAll()">Expand All</div>
+            <div class="btn" onclick="collapseAll()">Collapse All</div>
+        </div>
+    </div>
+    `;
+
+    let data = currentCategory==="All Questions"
+        ? allFAQs
+        : allFAQs.filter(f=>f.category===currentCategory);
+
+    if(currentSearch){
+        const s = currentSearch.toLowerCase();
+        data = data.filter(f =>
+            f.question.toLowerCase().includes(s) ||
+            f.answer.toLowerCase().includes(s)
+        );
     }
 
-    let html = '';
-    categoryFAQs.forEach((faq, index) => {
-        const uniqueID = `faq-item-${index}`;
+    let i=1;
+
+    data.forEach(f=>{
         html += `
-            <div class="faq-item" id="${uniqueID}">
-                <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
-                    <span class="badge">${index + 1}</span>
-                    <span>${faq.question}</span>
-                </div>
-                <div class="faq-a">
-                    <div class="faq-answer-content">
-                        ${category === "All Questions" ? `<small style="color:#0d3b6e; display:block; margin-bottom:5px;">Category: ${faq.category}</small>` : ''}
-                        ${convertLinksToHTML(faq.answer)}
-                    </div>
-                </div>
-            </div>`;
+        <div class="faq-item" id="faq-${i}">
+            <div class="faq-q" onclick="toggleFAQ('faq-${i}')">
+                <span class="badge">${i}</span>
+                <span>${f.question}</span>
+            </div>
+            <div class="faq-a">
+                <div class="faq-answer-content">${linkify(f.answer)}</div>
+            </div>
+        </div>`;
+        i++;
     });
+
     container.innerHTML = html;
 }
 
-function convertLinksToHTML(text) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+/* EVENTS */
+function changeCategory(cat){
+    currentCategory = cat;
+    renderFAQs();
 }
 
-function toggleFAQ(id) {
-    const element = document.getElementById(id);
-    element.classList.toggle('open');
+function handleSearch(val){
+    currentSearch = val;
+    renderFAQs();
+}
+
+function toggleFAQ(id){
+    document.getElementById(id).classList.toggle("open");
+}
+
+function expandAll(){
+    document.querySelectorAll('.faq-item').forEach(e=>e.classList.add('open'));
+}
+
+function collapseAll(){
+    document.querySelectorAll('.faq-item').forEach(e=>e.classList.remove('open'));
+}
+
+function linkify(text){
+    return text.replace(/https?:\/\/[^\s]+/g,u=>`<a href="${u}" target="_blank">${u}</a>`);
 }
 
 window.onload = loadFAQs;
-
-    function parseCSV(csvText) {
-        const lines = csvText.trim().split('\n');
-        
-        if (lines.length < 2) {
-            showError('Sheet is empty');
-            return;
-        }
-        
-        // Parse data rows
-        allFAQs = [];
-        
-        for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-            
-            // Parse CSV line - handle quoted fields
-            const fields = parseCSVLine(line);
-            
-            if (fields.length >= 3) {
-                const category = fields[0].trim();
-                const question = fields[1].trim();
-                const answer = fields[2].trim();
-                
-                if (category && question && answer) {
-                    allFAQs.push({ category, question, answer });
-                }
-            }
-        }
-        
-        console.log('Total FAQs loaded:', allFAQs.length);
-        
-        if (allFAQs.length === 0) {
-            showError(`No valid FAQs found. Check sheet format.`);
-            return;
-        }
-        
-        // Get unique categories
-        const categories = [];
-        const categoryOrder = {};
-        
-        allFAQs.forEach((faq, index) => {
-            if (!categoryOrder.hasOwnProperty(faq.category)) {
-                categories.push(faq.category);
-                categoryOrder[faq.category] = index;
-            }
-        });
-        
-        renderSidebar(categories);
-        currentCategory = categories[0];
-        renderFAQs(currentCategory);
-    }
-
-    function parseCSVLine(line) {
-        // Handle CSV with quoted fields
-        const fields = [];
-        let current = '';
-        let inQuotes = false;
-        
-        for (let i = 0; i < line.length; i++) {
-            const char = line[i];
-            const nextChar = line[i + 1];
-            
-            if (char === '"') {
-                if (inQuotes && nextChar === '"') {
-                    // Escaped quote
-                    current += '"';
-                    i++;
-                } else {
-                    // Toggle quote state
-                    inQuotes = !inQuotes;
-                }
-            } else if (char === ',' && !inQuotes) {
-                // Field separator
-                fields.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        
-        fields.push(current);
-        return fields;
-    }
-
-    function showError(message) {
-        document.getElementById('faq-container').innerHTML = `<div class="error">${message}</div>`;
-    }
-
-    function renderSidebar(categories) {
-        const sidebar = document.getElementById('sidebar');
-        let html = '';
-        
-        categories.forEach((cat, index) => {
-            const isActive = index === 0 ? 'active' : '';
-            html += `<button class="cat-button ${isActive}" onclick="selectCategory(event, '${cat}')">${cat}</button>`;
-        });
-        
-        sidebar.innerHTML = html;
-    }
-
-    function selectCategory(event, category) {
-        currentCategory = category;
-        
-        // Update active button
-        document.querySelectorAll('.cat-button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        
-        renderFAQs(category);
-    }
-
-    function renderFAQs(category) {
-        const container = document.getElementById('faq-container');
-        const categoryFAQs = allFAQs.filter(f => f.category === category);
-        
-        if (categoryFAQs.length === 0) {
-            container.innerHTML = '<p>No FAQs in this category.</p>';
-            return;
-        }
-        
-        let html = '';
-        let counter = 1;
-        categoryFAQs.forEach((faq, index) => {
-            const uniqueID = `faq-item-${category}-${index}`;
-            html += `
-                <div class="faq-item" id="${uniqueID}">
-                    <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
-                        <span class="badge">${counter}</span>
-                        <span>${faq.question}</span>
-                    </div>
-                    <div class="faq-a">
-                        <div class="faq-answer-content">${convertLinksToHTML(faq.answer)}</div>
-                    </div>
-                </div>`;
-            counter++;
-        });
-        
-        container.innerHTML = html;
-    }
-
-    function convertLinksToHTML(text) {
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
-        return text.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
-    }
-
-    function toggleFAQ(id) {
-        const element = document.getElementById(id);
-        element.classList.toggle('open');
-    }
-
-    window.onload = loadFAQs;
 </script>
+
 </body>
 </html>
