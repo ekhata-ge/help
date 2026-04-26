@@ -133,7 +133,8 @@
         try {
             const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
             const prompt = "Use this info: " + contextText + ". Answer politely for seniors: " + q;
-            const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent?key=" + API_KEY, {
+            // UPDATED: Now using v1 instead of v1beta to match your new key
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
