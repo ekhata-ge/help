@@ -30,29 +30,23 @@ body {
     text-align: center;
 }
 
-.content {
-    padding: 20px;
-}
+.content { padding: 20px; }
 
 .desc {
     font-size: 13px;
+    font-style: italic;
     color: #0d3b6e;
     margin-bottom: 15px;
     padding: 10px;
     background: #eef4fb;
+    border-left: 4px solid #0d3b6e;
 }
 
 /* Layout */
-.layout {
-    display: flex;
-    gap: 20px;
-}
+.layout { display: flex; gap: 20px; }
 
-/* Sidebar tabs */
-.sidebar {
-    width: 220px;
-    border-right: 1px solid #eee;
-}
+/* Sidebar */
+.sidebar { width: 240px; }
 
 .tab {
     padding: 10px;
@@ -60,10 +54,17 @@ body {
     border-radius: 6px;
     margin-bottom: 5px;
     font-size: 14px;
+    text-align: left;
 }
 
-.tab:hover {
-    background: #f0f5ff;
+.tab.main {
+    font-weight: bold;
+    border: 1px solid #0d3b6e;
+}
+
+.tab.sub {
+    padding-left: 20px;
+    font-size: 13px;
 }
 
 .tab.active {
@@ -71,12 +72,10 @@ body {
     color: white;
 }
 
-/* Right content */
-.main {
-    flex: 1;
-}
+/* Main */
+.main { flex: 1; }
 
-/* Rich search */
+/* Search */
 .search-wrapper {
     position: relative;
     margin-bottom: 15px;
@@ -84,16 +83,10 @@ body {
 
 .search-box {
     width: 100%;
-    padding: 12px 14px 12px 40px;
+    padding: 12px 14px 12px 38px;
     border-radius: 25px;
     border: 1px solid #ccc;
     font-size: 14px;
-    outline: none;
-}
-
-.search-box:focus {
-    border-color: #0d3b6e;
-    box-shadow: 0 0 0 2px rgba(13,59,110,0.1);
 }
 
 .search-icon {
@@ -101,8 +94,6 @@ body {
     top: 50%;
     left: 12px;
     transform: translateY(-50%);
-    font-size: 14px;
-    color: #666;
 }
 
 /* FAQ */
@@ -118,12 +109,12 @@ body {
     display: flex;
     gap: 10px;
     font-weight: 600;
+    text-align: left;
 }
 
 .faq-q::before {
     content: "▶";
     color: #0d3b6e;
-    transition: 0.2s;
 }
 
 .faq-item.open .faq-q::before {
@@ -133,7 +124,6 @@ body {
 .faq-a {
     max-height: 0;
     overflow: hidden;
-    transition: 0.3s;
 }
 
 .faq-item.open .faq-a {
@@ -146,6 +136,7 @@ body {
     padding: 12px;
     border-radius: 6px;
     font-size: 14px;
+    text-align: left;
 }
 
 .badge {
@@ -178,7 +169,7 @@ body {
     </div>
 
     <div class="content">
-        <div class="desc">📋 Prepared by Volunteers Team</div>
+        <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
         <div id="faq-container" class="loading">Loading...</div>
         <div class="footer">Last updated: April 2026</div>
     </div>
@@ -199,7 +190,7 @@ async function loadFAQs(){
     parseCSV(text);
 }
 
-/* CSV PARSER */
+/* CSV parser */
 function parseCSV(text){
     const rows=[];
     let row=[],field='',inQuotes=false;
@@ -234,16 +225,16 @@ function render(){
     let html=`
     <div class="layout">
         <div class="sidebar">
-            <div class="tab ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
+            <div class="tab main ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
             ${categories.map(c=>`
-                <div class="tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
+                <div class="tab sub ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
             `).join('')}
         </div>
 
         <div class="main">
             <div class="search-wrapper">
                 <span class="search-icon">🔍</span>
-                <input class="search-box" placeholder="Search FAQs..." oninput="handleSearch(event)">
+                <input class="search-box" value="${currentSearch}" placeholder="Search FAQs..." oninput="handleSearch(this.value)">
             </div>
     `;
 
@@ -282,8 +273,8 @@ function changeCategory(c){
     render();
 }
 
-function handleSearch(e){
-    currentSearch = e.target.value;
+function handleSearch(val){
+    currentSearch = val;
     render();
 }
 
