@@ -59,9 +59,9 @@
         #gba-faq-widget .gba-item.open .gba-a { display: block; }
         #gba-faq-widget a { color: #1a5cb5; text-decoration: underline; font-weight: 500; }
         #gba-faq-widget .gba-messages { height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; padding-right: 5px; }
-        #gba-faq-widget .gba-msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 14px; }
-        #gba-faq-widget .gba-msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; }
-        #gba-faq-widget .gba-msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border: 1px solid #ddd; }
+        #gba-faq-widget .gba-msg { max-width: 85%; padding: 12px 16px; border-radius: 15px; font-size: 14px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        #gba-faq-widget .gba-msg.user { align-self: flex-end; background: #0d3b6e; color: #fff; border-bottom-right-radius: 2px; }
+        #gba-faq-widget .gba-msg.bot { align-self: flex-start; background: #f0f2f5; color: #1a1a1a; border-bottom-left-radius: 2px; border: 1px solid #ddd; }
         #gba-faq-widget .gba-input-row { display: flex; gap: 10px; }
         #gba-faq-widget .gba-input { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; }
         #gba-faq-widget .gba-send { padding: 12px 25px; background: #0d3b6e; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
@@ -91,7 +91,7 @@
                 <div class="gba-msg bot">Namaste! I am your e-Khata assistant. Please type your question below.</div>
             </div>
             <div class="gba-input-row">
-                <input type="text" id="gba-chat-input" class="gba-input" placeholder="Example: How to find draft khata?" onkeydown="if(event.key==='Enter')gbaSend()">
+                <input type="text" id="gba-chat-input" class="gba-input" placeholder="Example: How to fix name mismatch?" onkeydown="if(event.key==='Enter')gbaSend()">
                 <button class="gba-send" onclick="gbaSend()">Send</button>
             </div>
         </div>
@@ -99,7 +99,7 @@
 </div>
 
 <script>
-    // THE API KEY BELOW IS ACTIVE
+    // THE API KEY YOU PROVIDED IS INTEGRATED BELOW
     const GEMINI_API_KEY = "AIzaSyBa7WQyzEqzigkCpKtHXwfDRX8cx6sna7E"; 
     const GEMINI_MODEL = "gemini-1.5-flash";
 
@@ -107,13 +107,13 @@
         { cat: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections should select 'Sale/Transferred'. If you cannot progress due to a technical issue, ensure the names in both sections match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
         { cat: "Application Process", q: "What are the essential differences in filling the application for mutation of e-Khata between Phase 1 and Phase 2/3?", a: "<b>Phase 1:</b> Select 'No Book'. The 18-digit Gram Panchayat Khata number serves as the Assessment ID.<br><b>Phase 2/3:</b> Select 'Book A125'. The Assessment ID is an alphanumeric value. You must also check if the ARO has signed; if not, you must attach the manual Challan. The rest of the procedure for draft khata to final e-Khata remains the same." },
         { cat: "Technical Issues", q: "Two ePID numbers were created for the same Assessment number with different details. How can this be sorted out?", a: "The GBA Helpdesk advises proceeding with the ePID that contains all your property details (even if the address is missing). The newly generated ePID that contains only the address should be ignored for the application." },
-        { cat: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br>1. <b>Self-Apply:</b> Use the official video guides and apply yourself.<br>2. <b>Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>bbmpeaasthi.karnataka.gov.in</a>.<br>3. <b>Janasevaka:</b> Use the 'Useful Links' on the official website.<br>4. <b>Bangalore One:</b> Visit any Bangalore One center for assistance." },
+        { cat: "General Information", q: "What are the different ways in which I can apply for e-Khata?", a: "There are four online modes:<br>1. <b>Self-Apply:</b> Use the official video guides and apply yourself.<br>2. <b>Local Entrepreneur:</b> Find authorized youth entrepreneurs on <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>the portal</a>.<br>3. <b>Janasevaka:</b> Use the 'Useful Links' on the official website.<br>4. <b>Bangalore One:</b> Visit any Bangalore One center for assistance." },
         { cat: "Application Process", q: "What should I enter in the 'Owners Share' column?", a: "You must enter the percentage of ownership that each owner of your flat holds (e.g., 50% each for joint owners). If you already have your e-Khata, you can update this share through this link: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/UpdateOwnerShare' target='_blank'>Update Owner Share Portal</a>." },
-        { cat: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit <a href='https://bbmpeaasthi.karnataka.gov.in/' target='_blank'>bbmpeaasthi.karnataka.gov.in</a> and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat Khata Number found in your Sale Deed." },
-        { cat: "General Information", q: "What are the addresses for the GBA and ARO offices?", a: "<b>BBMP Ward Office:</b> 15/3, Kanakapura Main Rd, Paramount Gardens, Talaghattapura, 560109. <a href='https://maps.google.com' target='_blank'>View on Map</a>.<br><b>ARO Kengeri Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060. <a href='https://share.google/fawUwahx1cbd2Ptl6' target='_blank'>View on Map</a>." },
-        { cat: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "Follow the portal steps for Ward 198. In search type, select 'Book No' and enter 'A125'. Search for your Assessment or flat number. If the flat number is not immediately visible, click the page number hyperlinks to find it, then save your ePID and download the draft." },
+        { cat: "Status & Search", q: "For Phase 1 of the project, what are the steps to find my draft e-Khata?", a: "1. Visit the portal and login.<br>2. Select 'eKhata' > 'Draft to Final eKhata'.<br>3. Select Ward 198.<br>4. Search by 'Owner Name' and enter 'ಗೋದ್ರೇಜ್' (Godrej).<br>5. Look for your 18-digit Gram Panchayat Khata Number found in your Sale Deed." },
+        { cat: "General Information", q: "What are the addresses for the GBA and ARO offices?", a: "<b>BBMP Ward Office:</b> 15/3, Kanakapura Main Rd, Paramount Gardens, Talaghattapura, 560109.<br><b>ARO Kengeri Office:</b> Srinivasa Arcade, No. 569/570, 80 feet Road, Kengeri Upanagara, 560060." },
+        { cat: "Status & Search", q: "How do I find the draft e-Khata for Phase 2 and Phase 3?", a: "Follow the portal steps for Ward 198. In search type, select 'Book No' and enter 'A125'. Search for your Assessment or flat number. If the flat number is not immediately visible, click the page number hyperlinks to find it." },
         { cat: "Technical Issues", q: "While paying property tax, it is listed under Rajarajeshwari Nagar zone and Bangalore West. Is this correct?", a: "Yes. This discrepancy is due to the transition from BBMP to GBA. While we are officially under the South corporation, some records still show West. You do not need to worry about this." },
-        { cat: "Status & Search", q: "How do I find the status of my submitted e-Khata application and where do I download it?", a: "Check status here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Status Link</a>.<br>Download approved e-Khata here: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Link</a>." },
+        { cat: "Status & Search", q: "How do I find the status of my submitted e-Khata application and where do I download it?", a: "Check status here: <a href='https://bbmpeaasthi.karnataka.gov.in/citizen_core/EkhataApplicationStatus' target='_blank'>Link</a>.<br>Download approved e-Khata here: <a href='https://bbmpeaasthi.karnataka.gov.in/office/frmKhathaDownload.aspx' target='_blank'>Link</a>." },
         { cat: "Documents", q: "What are the document references I need for the building license and approved plans?", a: "<b>Document 1 (License):</b> 'BMICAPA/SS/RD/13/20152016' (Dated 13-10-2015).<br><b>Document 2 (Plan):</b> 'BMICPA SITE PLAN' (Dated 21-04-2016). Reference ID: 1501272677303." },
         { cat: "Documents", q: "Where can I find the official digital copies of the CC, Building License, and Site Plan to upload?", a: "<b>CC and Building License:</b> <a href='https://drive.google.com/file/d/1yRJ2aRRN-1Jh5xIOOVW7xrNhaMFNMMev/view?usp=drive_link' target='_blank'>Download License PDF</a><br><b>Copy of Site Plan:</b> <a href='https://drive.google.com/file/d/1c1iDRBJmwSRBMq4rEWZ-k6aPIxeBJ2a0/view?usp=drive_link' target='_blank'>Download Site Plan PDF</a>" },
         { cat: "Application Process", q: "My Khata was approved in 'Godrej' name instead of mine. Should I apply for mutation separately?", a: "No. Log in and use the 'Corrections' link in the portal. Raising a helpdesk ticket or visiting the ARO office can resolve this. It typically takes 7 to 10 days for approval after the correction is submitted." }
@@ -151,7 +151,7 @@
         msgs.innerHTML += `<div class="gba-msg user">${q}</div>`;
         const botDiv = document.createElement('div');
         botDiv.className = 'gba-msg bot';
-        botDiv.textContent = 'Searching...';
+        botDiv.textContent = 'Searching records...';
         msgs.appendChild(botDiv);
         msgs.scrollTop = msgs.scrollHeight;
 
@@ -160,11 +160,11 @@
             const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ contents: [{ parts: [{ text: "Answer politely using this info: " + contextText + ". Question: " + q }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: "Answer using this context: " + contextText + ". Question: " + q }] }] })
             });
             const data = await resp.json();
             botDiv.innerHTML = data.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-        } catch(e) { botDiv.textContent = "Error connecting. Ensure your API key is restricted correctly."; }
+        } catch(e) { botDiv.textContent = "I'm having trouble connecting to the server. Please try again or check the manual FAQ list."; }
         msgs.scrollTop = msgs.scrollHeight;
     }
     window.onload = gbaRender;
