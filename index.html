@@ -7,16 +7,20 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f4f7f6; padding: 20px; }
-        .widget { max-width: 850px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .widget { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .header { background: #0d3b6e; color: #fff; padding: 30px; text-align: center; }
         .header h2 { font-size: 28px; margin-bottom: 8px; }
         .header p { font-size: 16px; opacity: 0.95; }
         
-        .content { padding: 25px; min-height: 500px; }
-        .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 25px; padding: 12px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
+        .main-container { display: flex; }
         
-        .cat-title { font-size: 18px; color: #0d3b6e; margin: 25px 0 15px 0; font-weight: bold; border-bottom: 2px solid #0d3b6e; padding-bottom: 8px; text-transform: uppercase; }
-        .cat-title:first-of-type { margin-top: 0; }
+        .sidebar { width: 180px; background: #f9f9f9; border-right: 2px solid #e0e0e0; padding: 20px 0; }
+        .cat-button { display: block; width: 100%; padding: 12px 15px; text-align: left; background: none; border: none; cursor: pointer; color: #555; font-weight: 600; font-size: 14px; border-left: 4px solid transparent; transition: all 0.2s ease; writing-mode: horizontal-tb; }
+        .cat-button:hover { background: #f0f5ff; border-left-color: #0d3b6e; }
+        .cat-button.active { background: #e8f4f8; color: #0d3b6e; border-left-color: #0d3b6e; }
+        
+        .content { flex: 1; padding: 25px; min-height: 500px; }
+        .desc { font-size: 13px; font-style: italic; color: #0d3b6e; margin-bottom: 25px; padding: 12px; background: #eef4fb; border-radius: 6px; border-left: 4px solid #0d3b6e; }
         
         .faq-item { border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
         .faq-q { padding: 16px; cursor: pointer; font-weight: 600; background: #fff; display: flex; align-items: flex-start; gap: 12px; font-size: 15px; user-select: none; transition: all 0.2s ease; }
@@ -36,6 +40,14 @@
         .footer { text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 20px; color: #666; font-size: 13px; }
         .loading { text-align: center; padding: 40px; color: #666; }
         .error { background: #ffe8e8; color: #c41e1e; padding: 15px; border-radius: 6px; margin: 20px 0; }
+        
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 2px solid #e0e0e0; padding: 10px 0; display: flex; flex-wrap: wrap; }
+            .cat-button { width: auto; padding: 10px 15px; border-left: none; border-bottom: 3px solid transparent; }
+            .cat-button:hover { border-bottom-color: #0d3b6e; border-left: none; }
+            .cat-button.active { border-bottom-color: #0d3b6e; border-left: none; }
+        }
     </style>
 </head>
 <body>
@@ -46,12 +58,16 @@
         <p>Resource for Godrej Eternity Residents</p>
     </div>
     
-    <div class="content">
-        <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
-        <div id="faq-container" class="loading">Loading FAQs...</div>
+    <div class="main-container">
+        <div class="sidebar" id="sidebar"></div>
         
-        <div class="footer">
-            <p>Last updated: April 2026 | For additional help, visit the official BBMP portal</p>
+        <div class="content">
+            <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
+            <div id="faq-container" class="loading">Loading FAQs...</div>
+            
+            <div class="footer">
+                <p>Last updated: April 2026 | For additional help, visit the official BBMP portal</p>
+            </div>
         </div>
     </div>
 </div>
@@ -62,6 +78,7 @@
     const EXPORT_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
     
     let allFAQs = [];
+    let currentCategory = null;
 
     async function loadFAQs() {
         try {
@@ -124,7 +141,20 @@
             return;
         }
         
-        renderFAQsByCategory();
+        // Get unique categories
+        const categories = [];
+        const categoryOrder = {};
+        
+        allFAQs.forEach((faq, index) => {
+            if (!categoryOrder.hasOwnProperty(faq.category)) {
+                categories.push(faq.category);
+                categoryOrder[faq.category] = index;
+            }
+        });
+        
+        renderSidebar(categories);
+        currentCategory = categories[0];
+        renderFAQs(currentCategory);
     }
 
     function parseCSVLine(line) {
@@ -163,41 +193,54 @@
         document.getElementById('faq-container').innerHTML = `<div class="error">${message}</div>`;
     }
 
-    function renderFAQsByCategory() {
-        const container = document.getElementById('faq-container');
+    function renderSidebar(categories) {
+        const sidebar = document.getElementById('sidebar');
+        let html = '';
         
-        // Get unique categories in order they appear
-        const categories = [];
-        const categoryOrder = {};
-        
-        allFAQs.forEach((faq, index) => {
-            if (!categoryOrder.hasOwnProperty(faq.category)) {
-                categories.push(faq.category);
-                categoryOrder[faq.category] = index;
-            }
+        categories.forEach((cat, index) => {
+            const isActive = index === 0 ? 'active' : '';
+            html += `<button class="cat-button ${isActive}" onclick="selectCategory(event, '${cat}')">${cat}</button>`;
         });
         
-        let html = '';
-        let globalCounter = 1;
+        sidebar.innerHTML = html;
+    }
+
+    function selectCategory(event, category) {
+        currentCategory = category;
         
-        categories.forEach(category => {
-            html += `<div class="cat-title">${category}</div>`;
-            
-            const categoryFAQs = allFAQs.filter(f => f.category === category);
-            categoryFAQs.forEach((faq) => {
-                const uniqueID = `faq-item-${globalCounter}`;
-                html += `
+        // Update active button
+        document.querySelectorAll('.cat-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        renderFAQs(category);
+    }
+
+    function renderFAQs(category) {
+        const container = document.getElementById('faq-container');
+        const categoryFAQs = allFAQs.filter(f => f.category === category);
+        
+        if (categoryFAQs.length === 0) {
+            container.innerHTML = '<p>No FAQs in this category.</p>';
+            return;
+        }
+        
+        let html = '';
+        let counter = 1;
+        categoryFAQs.forEach((faq, index) => {
+            const uniqueID = `faq-item-${category}-${index}`;
+            html += `
                 <div class="faq-item" id="${uniqueID}">
                     <div class="faq-q" onclick="toggleFAQ('${uniqueID}')">
-                        <span class="badge">${globalCounter}</span>
+                        <span class="badge">${counter}</span>
                         <span>${faq.question}</span>
                     </div>
                     <div class="faq-a">
                         <div class="faq-answer-content">${convertLinksToHTML(faq.answer)}</div>
                     </div>
                 </div>`;
-                globalCounter++;
-            });
+            counter++;
         });
         
         container.innerHTML = html;
