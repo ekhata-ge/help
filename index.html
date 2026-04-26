@@ -68,8 +68,8 @@
 
 <script>
     const API_KEY = "AIzaSyBdzzmxGx436YjLgm91bN8JSgeINuUvMPI";
-    // UPDATED MODEL NAME: Using the 'latest' alias for maximum compatibility
-    const MODEL = "gemini-1.5-flash-latest";
+    // FIXED: Changed from 'gemini-1.5-flash-latest' to 'gemini-1.5-flash' (the stable version that works)
+    const MODEL = "gemini-1.5-flash";
 
     const DATA = [
         { c: "Technical Issues", q: "I am getting a name mismatch issue. Where do I show the 'Sale Transferred' dropdown? In e-KYC or in KAVERI deed owners?", a: "Both sections select Sale/Transferred. If you cannot progress due to a technical issue, ensure the names match your registered sale deed exactly. If the error persists, it is likely a system sync issue with the GBA servers." },
@@ -134,8 +134,8 @@
         try {
             const contextText = DATA.map((d, i) => (i+1) + ". " + d.q + " " + d.a).join(" ");
             const prompt = "Use this info: " + contextText + ". Answer politely for seniors: " + q;
-            // Using v1 and the 'latest' alias
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1/models/${MODEL}:generateContent?key=${API_KEY}`, {
+            // FIXED: Using v1beta (more reliable) and the stable 'gemini-1.5-flash' model name
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
