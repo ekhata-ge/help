@@ -248,8 +248,20 @@ function parseCSV(text){
 
 function render(){
     const container=document.getElementById('faq-container');
-    const categories=[...new Set(allFAQs.map(f=>f.category))];
+    const preferredOrder = [
+    "General Information",
+    "Status and Search",
+    "Application Process"
+];
 
+// get all unique categories
+const allCategories = [...new Set(allFAQs.map(f => f.category))];
+
+// sort based on preferred order
+const categories = [
+    ...preferredOrder.filter(c => allCategories.includes(c)),
+    ...allCategories.filter(c => !preferredOrder.includes(c))
+];
     container.innerHTML=`
     <div class="layout">
 
