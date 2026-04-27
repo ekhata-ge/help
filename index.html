@@ -67,7 +67,7 @@ body {
     color: white;
 }
 
-/* MOBILE TABS (hidden on desktop) */
+/* Mobile Tabs */
 .mobile-tabs {
     display: none;
     overflow-x: auto;
@@ -132,24 +132,21 @@ mark {
     padding: 14px;
     cursor: pointer;
     display: flex;
+    align-items: flex-start;
     gap: 10px;
     font-weight: 600;
 }
 
-.faq-q::before {
-    content: "▶";
-    min-width: 18px;
+/* Arrow FIXED */
+.faq-arrow {
+    min-width: 20px;
+    color: #0d3b6e;
+    margin-top: 2px;
+    transition: 0.2s;
 }
 
-.faq-item.open .faq-q::before {
+.faq-item.open .faq-arrow {
     transform: rotate(90deg);
-}
-
-.faq-a { max-height: 0; overflow: hidden; }
-
-.faq-item.open .faq-a {
-    max-height: 1000px;
-    padding: 14px;
 }
 
 .badge {
@@ -159,6 +156,18 @@ mark {
     border-radius: 4px;
     font-size: 12px;
     min-width: 28px;
+    text-align: center;
+}
+
+.faq-text {
+    flex: 1;
+}
+
+.faq-a { max-height: 0; overflow: hidden; }
+
+.faq-item.open .faq-a {
+    max-height: 1000px;
+    padding: 14px;
 }
 
 .faq-answer-content {
@@ -168,17 +177,16 @@ mark {
     font-size: 14px;
 }
 
-/* MOBILE ONLY */
+ul {
+    padding-left: 18px;
+    margin: 6px 0;
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
     .layout { flex-direction: column; }
-
     .sidebar { display: none; }
-
-    .mobile-tabs {
-        display: flex;
-    }
-
-    body { padding: 5px; }
+    .mobile-tabs { display: flex; }
 }
 </style>
 </head>
@@ -245,7 +253,6 @@ function render(){
     container.innerHTML=`
     <div class="layout">
 
-        <!-- Desktop Sidebar -->
         <div class="sidebar">
             <div class="tab main ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
             ${categories.map(c=>`<div class="tab sub ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>`).join('')}
@@ -253,12 +260,9 @@ function render(){
 
         <div class="main">
 
-            <!-- Mobile Tabs -->
             <div class="mobile-tabs">
                 <div class="mobile-tab ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All</div>
-                ${categories.map(c=>`
-                    <div class="mobile-tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>
-                `).join('')}
+                ${categories.map(c=>`<div class="mobile-tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>`).join('')}
             </div>
 
             <div class="search-wrapper">
@@ -280,6 +284,22 @@ function highlight(text){
     return text.replace(r,'<mark>$1</mark>');
 }
 
+function formatAnswer(text){
+    text = linkify(text);
+    let blocks = text.split("||");
+
+    return blocks.map(block=>{
+        block=block.trim();
+
+        if(block.includes("|")){
+            let items=block.split("|").map(i=>i.trim()).filter(i=>i);
+            return `<ul>${items.map(i=>`<li>${highlight(i)}</li>`).join('')}</ul>`;
+        } else {
+            return `<p>${highlight(block)}</p>`;
+        }
+    }).join("");
+}
+
 function renderFAQList(){
     let data = currentCategory==="All Questions"
         ? allFAQs
@@ -296,11 +316,12 @@ function renderFAQList(){
         html+=`
         <div class="faq-item">
             <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+                <span class="faq-arrow">▶</span>
                 <span class="badge">${i}</span>
-                <span>${highlight(f.question)}</span>
+                <span class="faq-text">${highlight(f.question)}</span>
             </div>
             <div class="faq-a">
-                <div class="faq-answer-content">${highlight(f.answer)}</div>
+                <div class="faq-answer-content">${formatAnswer(f.answer)}</div>
             </div>
         </div>`;
         i++;
@@ -317,6 +338,10 @@ function changeCategory(c){
 function handleSearch(val){
     currentSearch=val;
     renderFAQList();
+}
+
+function linkify(text){
+    return text.replace(/https?:\/\/[^\s]+/g,u=>`<a href="${u}" target="_blank">${u}</a>`);
 }
 
 window.onload=loadFAQs;
