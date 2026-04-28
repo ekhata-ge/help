@@ -31,32 +31,43 @@ body {
 
 .content { padding:15px; }
 
-.desc {
-    font-size:13px;
-    color:#0d3b6e;
-    margin-bottom:12px;
-    padding:10px;
-    background:#eef4fb;
-    border-left:4px solid #0d3b6e;
+/* ✅ NEW BANNER STYLE (only change) */
+.desc-banner {
+    margin-bottom: 15px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #eef4fb, #f7fbff);
+    border-left: 4px solid #0d3b6e;
+    border-radius: 8px;
+}
+
+.desc-title {
+    font-size: 13px;
+    color: #0d3b6e;
+    font-weight: 600;
+}
+
+.desc-tagline {
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: #333;
+    font-style: italic;
+    opacity: 0.9;
 }
 
 /* Layout */
 .layout { display:flex; gap:20px; }
 
-/* ✅ FIXED SIDEBAR */
+/* Sidebar */
 .sidebar {
     width:260px;
     min-width:260px;
 }
 
-/* Tabs */
 .tab {
     padding:10px;
     cursor:pointer;
     border-radius:6px;
     margin-bottom:5px;
-
-    /* ✅ Prevent wrapping */
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -128,7 +139,6 @@ ul { padding-left:18px; margin:6px 0; }
     line-height:1.6;
 }
 
-/* Mobile */
 @media(max-width:768px){
     .layout{flex-direction:column;}
     .sidebar{display:none;}
@@ -146,7 +156,17 @@ ul { padding-left:18px; margin:6px 0; }
 </div>
 
 <div class="content">
-<div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
+
+<!-- ✅ UPDATED BANNER -->
+<div class="desc-banner">
+    <div class="desc-title">
+        📋 Prepared by Godrej Eternity e-Khata Volunteers Team
+    </div>
+    <div class="desc-tagline">
+        A tiny step towards bribe-free khata!
+    </div>
+</div>
+
 <div id="faq-container">Loading...</div>
 
 <div class="disclaimer">
