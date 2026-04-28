@@ -12,7 +12,6 @@ body {
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     background:#f4f7f6;
     padding:10px;
-    padding-bottom:80px;
 }
 
 .widget {
@@ -45,49 +44,32 @@ body {
 .layout { display:flex; gap:20px; }
 .sidebar { width:240px; }
 
-/* Tabs */
-.tab {
-    padding:10px;
-    cursor:pointer;
-    border-radius:6px;
-    margin-bottom:5px;
-}
-
+.tab { padding:10px; cursor:pointer; border-radius:6px; margin-bottom:5px; }
 .tab.main { font-weight:bold; border:1px solid #0d3b6e; }
 .tab.sub { padding-left:20px; }
 .tab.active { background:#0d3b6e; color:#fff; }
 
-/* Mobile tabs */
-.mobile-tabs {
-    display:none;
-    overflow-x:auto;
-    gap:8px;
-    margin-bottom:10px;
-}
-
-.mobile-tab {
-    flex:0 0 auto;
-    padding:8px 14px;
-    border-radius:20px;
-    border:1px solid #0d3b6e;
-    font-size:13px;
-}
-
+/* Mobile */
+.mobile-tabs { display:none; overflow-x:auto; gap:8px; margin-bottom:10px; }
+.mobile-tab { flex:0 0 auto; padding:8px 14px; border-radius:20px; border:1px solid #0d3b6e; }
 .mobile-tab.active { background:#0d3b6e; color:#fff; }
 
 /* Search */
-.search-wrapper { position:relative; margin-bottom:15px; }
+.search-wrapper { position:relative; margin-bottom:10px; }
 .search-box {
     width:100%;
-    padding:12px 14px 12px 40px;
+    padding:12px 40px;
     border-radius:25px;
     border:1px solid #ccc;
 }
-.search-icon {
-    position:absolute;
-    top:50%;
-    left:12px;
-    transform:translateY(-50%);
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); }
+.clear-btn { position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; }
+
+/* Results count */
+.results-count {
+    font-size:12px;
+    color:#666;
+    margin-bottom:10px;
 }
 
 /* Highlight */
@@ -95,15 +77,7 @@ mark { background:#fff3a0; }
 
 /* FAQ */
 .faq-item { border:1px solid #ddd; border-radius:8px; margin-bottom:12px; }
-
-.faq-q {
-    padding:14px;
-    cursor:pointer;
-    display:flex;
-    gap:10px;
-    font-weight:600;
-}
-
+.faq-q { padding:14px; display:flex; gap:10px; cursor:pointer; font-weight:600; }
 .faq-arrow { min-width:20px; }
 .faq-item.open .faq-arrow { transform:rotate(90deg); }
 
@@ -131,23 +105,19 @@ mark { background:#fff3a0; }
 
 ul { padding-left:18px; margin:6px 0; }
 
-/* Mobile */
+/* Disclaimer */
+.disclaimer {
+    margin-top:20px;
+    font-size:12px;
+    color:#555;
+    text-align:center;
+    line-height:1.6;
+}
+
 @media(max-width:768px){
     .layout{flex-direction:column;}
     .sidebar{display:none;}
     .mobile-tabs{display:flex;}
-}
-
-/* Disclaimer */
-#disclaimer {
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#fff8e1;
-    font-size:12px;
-    padding:10px;
-    text-align:center;
-    border-top:1px solid #e6c96f;
 }
 </style>
 </head>
@@ -164,17 +134,15 @@ ul { padding-left:18px; margin:6px 0; }
 <div class="desc">📋 Prepared by Godrej Eternity e-Khata Volunteers Team</div>
 <div id="faq-container">Loading...</div>
 
-<div style="text-align:center;font-size:12px;margin-top:10px;">
-<div id="visitor-count">👀 Visitors: Loading...</div>
-<div>Last updated: April 2026</div>
+<!-- Disclaimer replaces last updated -->
+<div class="disclaimer">
+<strong>Disclaimer:</strong>
+<i>
+GBA frequently updates the software and processes related to the e-Khata application. While we are continuously familiarising ourselves with these changes to guide residents, we recommend that you also follow up with the GBA helpdesk and raise support tickets if you encounter any issues.
+</i>
 </div>
 
 </div>
-</div>
-
-<!-- Disclaimer -->
-<div id="disclaimer">
-<strong>Disclaimer:</strong> GBA frequently updates the software and processes related to the e-Khata application. While we are continuously familiarising ourselves with these changes to guide residents, we recommend that you also follow up with the GBA helpdesk and raise support tickets if you encounter any issues.
 </div>
 
 <script>
@@ -183,14 +151,12 @@ const EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?form
 
 let allFAQs=[],currentCategory="All Questions",currentSearch="";
 
-/* Load */
 async function loadFAQs(){
 let res=await fetch(EXPORT_URL);
 let text=await res.text();
 parseCSV(text);
 }
 
-/* CSV */
 function parseCSV(text){
 const rows=[];let row=[],field='',inQuotes=false;
 for(let i=0;i<text.length;i++){
@@ -213,23 +179,21 @@ answer:r[2]?.trim()
 render();
 }
 
-/* Render */
 function render(){
 const preferred=["General Information","Status and Search","Application Process"];
 const allCats=[...new Set(allFAQs.map(f=>f.category))];
-const categories=[
-...preferred.filter(c=>allCats.includes(c)),
-...allCats.filter(c=>!preferred.includes(c))
-];
+const categories=[...preferred.filter(c=>allCats.includes(c)),...allCats.filter(c=>!preferred.includes(c))];
 
 document.getElementById('faq-container').innerHTML=`
 <div class="layout">
+
 <div class="sidebar">
 <div class="tab main ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All Questions</div>
 ${categories.map(c=>`<div class="tab sub ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>`).join('')}
 </div>
 
 <div class="main">
+
 <div class="mobile-tabs">
 <div class="mobile-tab ${currentCategory==="All Questions"?"active":""}" onclick="changeCategory('All Questions')">All</div>
 ${categories.map(c=>`<div class="mobile-tab ${currentCategory===c?"active":""}" onclick="changeCategory('${c}')">${c}</div>`).join('')}
@@ -237,17 +201,24 @@ ${categories.map(c=>`<div class="mobile-tab ${currentCategory===c?"active":""}" 
 
 <div class="search-wrapper">
 <span class="search-icon">🔍</span>
-<input class="search-box" placeholder="Search FAQs..." oninput="handleSearch(this.value)">
+<input class="search-box" value="${currentSearch}" placeholder="Search FAQs..." oninput="handleSearch(this.value)">
+<span class="clear-btn" onclick="clearSearch()">✖</span>
 </div>
 
+<div id="results-count" class="results-count"></div>
 <div id="faq-list"></div>
+
 </div>
 </div>`;
 
 renderFAQList();
 }
 
-/* Format Answer */
+function highlight(t){
+if(!currentSearch)return t;
+return t.replace(new RegExp(`(${currentSearch})`,'gi'),'<mark>$1</mark>');
+}
+
 function formatAnswer(text){
 text=linkify(text);
 let blocks=text.split("||");
@@ -262,19 +233,19 @@ return `<p>${highlight(b)}</p>`;
 }).join("");
 }
 
-/* Highlight */
-function highlight(t){
-if(!currentSearch)return t;
-return t.replace(new RegExp(`(${currentSearch})`,'gi'),'<mark>$1</mark>');
-}
-
-/* Render list */
 function renderFAQList(){
 let data=currentCategory==="All Questions"?allFAQs:allFAQs.filter(f=>f.category===currentCategory);
 
 if(currentSearch){
 let s=currentSearch.toLowerCase();
 data=data.filter(f=>f.question.toLowerCase().includes(s)||f.answer.toLowerCase().includes(s));
+}
+
+document.getElementById("results-count").innerText =
+currentSearch ? `${data.length} result(s) found` : "";
+
+if(currentSearch){
+setTimeout(()=>document.getElementById("results-count").scrollIntoView({behavior:"smooth"}),100);
 }
 
 let html='',i=1;
@@ -296,23 +267,12 @@ i++;
 document.getElementById('faq-list').innerHTML=html||"<p>No results found</p>";
 }
 
-/* Others */
 function changeCategory(c){currentCategory=c;render();}
 function handleSearch(v){currentSearch=v;renderFAQList();}
+function clearSearch(){currentSearch="";render();}
 function linkify(t){return t.replace(/https?:\/\/[^\s]+/g,u=>`<a href="${u}" target="_blank">${u}</a>`);}
 
-/* Visitor Counter */
-async function updateVisitorCount(){
-let res=await fetch("https://api.countapi.xyz/hit/godrej-ekhata/visits");
-let data=await res.json();
-document.getElementById("visitor-count").innerText="👀 Visitors: "+data.value;
-}
-
-/* Load */
-window.onload=function(){
-loadFAQs();
-updateVisitorCount();
-};
+window.onload=loadFAQs;
 </script>
 
 </body>
