@@ -7,235 +7,263 @@
 <title>E-Khata Help - Godrej Eternity</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    background:#f4f7f6;
-    padding:10px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.widget {
-    max-width:1000px;
-    margin:0 auto;
-    background:#fff;
-    border-radius:12px;
-    border:1px solid #ccc;
+body{
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:#f4f7f6;
+padding:10px;
 }
 
-.header {
-    background:#0d3b6e;
-    color:#fff;
-    padding:20px;
-    text-align:center;
+.widget{
+max-width:1000px;
+margin:0 auto;
+background:#fff;
+border-radius:12px;
+border:1px solid #ccc;
 }
 
-.content { padding:15px; }
+.header{
+background:#0d3b6e;
+color:#fff;
+padding:20px;
+text-align:center;
+}
+
+.content{
+padding:15px;
+}
 
 /* Banner */
-.desc-banner {
-    margin-bottom: 15px;
-    padding: 14px 16px;
-    background: linear-gradient(135deg, #eef4fb, #f7fbff);
-    border-left: 4px solid #0d3b6e;
-    border-radius: 8px;
+.desc-banner{
+margin-bottom:15px;
+padding:14px 16px;
+background:linear-gradient(135deg,#eef4fb,#f7fbff);
+border-left:4px solid #0d3b6e;
+border-radius:8px;
 }
 
-.desc-title {
-    font-size: 13px;
-    color: #0d3b6e;
-    font-weight: 600;
+.desc-title{
+font-size:13px;
+color:#0d3b6e;
+font-weight:600;
 }
 
-.desc-tagline {
-    margin-top: 4px;
-    font-size: 12.5px;
-    color: #333;
-    font-style: italic;
-    opacity: 0.9;
+.desc-tagline{
+margin-top:4px;
+font-size:12.5px;
+color:#333;
+font-style:italic;
+opacity:0.9;
 }
 
 /* Layout */
-.layout { display:flex; gap:20px; }
+.layout{
+display:flex;
+gap:20px;
+}
 
 /* Sidebar */
-.sidebar {
-    width:260px;
-    min-width:260px;
+.sidebar{
+width:260px;
+min-width:260px;
 }
 
-.tab {
-    padding:10px;
-    cursor:pointer;
-    border-radius:6px;
-    margin-bottom:5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+.tab{
+padding:10px;
+cursor:pointer;
+border-radius:6px;
+margin-bottom:5px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
-.tab.main {
-    font-weight:bold;
-    border:1px solid #0d3b6e;
+.tab.main{
+font-weight:bold;
+border:1px solid #0d3b6e;
 }
 
-.tab.sub {
-    padding-left:20px;
+.tab.sub{
+padding-left:20px;
 }
 
-.tab.active {
-    background:#0d3b6e;
-    color:#fff;
+.tab.active{
+background:#0d3b6e;
+color:#fff;
 }
 
-/* Mobile */
-.mobile-tabs {
-    display:none;
-    overflow-x:auto;
-    gap:8px;
-    margin-bottom:10px;
+/* Mobile Tabs */
+.mobile-tabs{
+display:none;
+overflow-x:auto;
+gap:8px;
+margin-bottom:10px;
 }
 
-.mobile-tab {
-    flex:0 0 auto;
-    padding:8px 14px;
-    border-radius:20px;
-    border:1px solid #0d3b6e;
+.mobile-tab{
+flex:0 0 auto;
+padding:8px 14px;
+border-radius:20px;
+border:1px solid #0d3b6e;
 }
 
-.mobile-tab.active {
-    background:#0d3b6e;
-    color:#fff;
+.mobile-tab.active{
+background:#0d3b6e;
+color:#fff;
 }
 
 /* Search */
-.search-wrapper {
-    position:relative;
-    margin-bottom:10px;
+.search-wrapper{
+position:relative;
+margin-bottom:10px;
 }
 
-.search-box {
-    width:100%;
-    padding:12px 40px;
-    border-radius:25px;
-    border:1px solid #ccc;
+.search-box{
+width:100%;
+padding:12px 40px;
+border-radius:25px;
+border:1px solid #ccc;
 }
 
-.search-icon {
-    position:absolute;
-    left:12px;
-    top:50%;
-    transform:translateY(-50%);
+.search-icon{
+position:absolute;
+left:12px;
+top:50%;
+transform:translateY(-50%);
 }
 
-.clear-btn {
-    position:absolute;
-    right:12px;
-    top:50%;
-    transform:translateY(-50%);
-    cursor:pointer;
+.clear-btn{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
 }
 
 /* Results */
-.results-count {
-    font-size:12px;
-    color:#666;
-    margin-bottom:10px;
+.results-count{
+font-size:12px;
+color:#666;
+margin-bottom:10px;
 }
 
 /* Highlight */
-mark {
-    background:#fff3a0;
+mark{
+background:#fff3a0;
 }
 
 /* FAQ */
-.faq-item {
-    border:1px solid #ddd;
-    border-radius:8px;
-    margin-bottom:12px;
+.faq-item{
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:12px;
 }
 
-.faq-q {
-    padding:14px;
-    display:flex;
-    gap:10px;
-    cursor:pointer;
-    font-weight:600;
+.faq-q{
+padding:14px;
+display:flex;
+gap:10px;
+cursor:pointer;
+font-weight:600;
 }
 
-.faq-arrow {
-    min-width:20px;
+.faq-arrow{
+min-width:20px;
 }
 
-.faq-item.open .faq-arrow {
-    transform:rotate(90deg);
+.faq-item.open .faq-arrow{
+transform:rotate(90deg);
 }
 
-.badge {
-    background:#0d3b6e;
-    color:#fff;
-    padding:3px 8px;
-    border-radius:4px;
-    font-size:12px;
-    min-width:28px;
-    text-align:center;
+.badge{
+background:#0d3b6e;
+color:#fff;
+padding:3px 8px;
+border-radius:4px;
+font-size:12px;
+min-width:28px;
+text-align:center;
 }
 
-.faq-text {
-    flex:1;
+.faq-text{
+flex:1;
 }
 
-.faq-a {
-    max-height:0;
-    overflow:hidden;
+.faq-a{
+max-height:0;
+overflow:hidden;
 }
 
-.faq-item.open .faq-a {
-    max-height:1000px;
-    padding:14px;
+.faq-item.open .faq-a{
+max-height:1000px;
+padding:14px;
 }
 
-.faq-answer-content {
-    background:#fafafa;
-    padding:12px;
-    border-radius:6px;
-    font-size:14px;
-}
-
-ul {
-    padding-left:18px;
-    margin:6px 0;
+.faq-answer-content{
+background:#fafafa;
+padding:12px;
+border-radius:6px;
+font-size:14px;
 }
 
 /* WhatsApp Button */
-.whatsapp-share {
-    margin-top:12px;
+.whatsapp-share{
+margin-top:12px;
 }
 
-.whatsapp-share a {
-    display:inline-block;
-    background:#25D366;
-    color:#fff;
-    padding:8px 14px;
-    border-radius:6px;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:600;
+.whatsapp-share a{
+display:inline-flex;
+align-items:center;
+gap:6px;
+background:#25D366;
+color:#fff;
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+font-weight:600;
+}
+
+.whatsapp-share img{
+width:16px;
+height:16px;
+}
+
+/* Lists */
+ul{
+padding-left:18px;
+margin:6px 0;
 }
 
 /* Disclaimer */
-.disclaimer {
-    margin-top:20px;
-    font-size:12px;
-    color:#555;
-    text-align:center;
-    line-height:1.6;
+.disclaimer{
+margin-top:20px;
+font-size:12px;
+color:#555;
+text-align:center;
+line-height:1.6;
 }
 
+/* Mobile */
 @media(max-width:768px){
-    .layout{flex-direction:column;}
-    .sidebar{display:none;}
-    .mobile-tabs{display:flex;}
+
+.layout{
+flex-direction:column;
+}
+
+.sidebar{
+display:none;
+}
+
+.mobile-tabs{
+display:flex;
+}
+
 }
 </style>
 </head>
@@ -252,21 +280,29 @@ ul {
 <div class="content">
 
 <div class="desc-banner">
-    <div class="desc-title">
-        📋 Prepared by Godrej Eternity e-Khata Volunteers Team
-    </div>
-    <div class="desc-tagline">
-        A tiny step towards bribe-free khata!
-    </div>
+
+<div class="desc-title">
+📋 Prepared by Godrej Eternity e-Khata Volunteers Team
 </div>
 
-<div id="faq-container">Loading...</div>
+<div class="desc-tagline">
+A tiny step towards bribe-free khata!
+</div>
+
+</div>
+
+<div id="faq-container">
+Loading...
+</div>
 
 <div class="disclaimer">
+
 <strong>Disclaimer:</strong>
+
 <i>
 GBA frequently updates the software and processes related to the e-Khata application. While we are continuously familiarising ourselves with these changes to guide residents, we recommend that you also follow up with the GBA helpdesk and raise support tickets if you encounter any issues.
 </i>
+
 </div>
 
 </div>
@@ -275,37 +311,48 @@ GBA frequently updates the software and processes related to the e-Khata applica
 <script>
 
 const SHEET_ID="1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
-const EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
-let allFAQs=[],currentCategory="All Questions",currentSearch="";
+const EXPORT_URL=
+`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+let allFAQs=[];
+let currentCategory="All Questions";
+let currentSearch="";
 
 async function loadFAQs(){
+
 let res=await fetch(EXPORT_URL);
 let text=await res.text();
+
 parseCSV(text);
+
 }
 
 function parseCSV(text){
 
 const rows=[];
-let row=[],field='',inQuotes=false;
+
+let row=[];
+let field='';
+let inQuotes=false;
 
 for(let i=0;i<text.length;i++){
 
-let c=text[i],n=text[i+1];
+let c=text[i];
+let n=text[i+1];
 
-if(c=='"'&&inQuotes&&n=='"'){
+if(c=='"' && inQuotes && n=='"'){
 field+='"';
 i++;
 }
 else if(c=='"'){
 inQuotes=!inQuotes;
 }
-else if(c==','&&!inQuotes){
+else if(c==',' && !inQuotes){
 row.push(field);
 field='';
 }
-else if(c=='\n'&&!inQuotes){
+else if(c=='\n' && !inQuotes){
 row.push(field);
 rows.push(row);
 row=[];
@@ -317,14 +364,16 @@ field+=c;
 
 }
 
-if(field)row.push(field);
-if(row.length)rows.push(row);
+if(field) row.push(field);
+if(row.length) rows.push(row);
 
 allFAQs=rows.slice(1).map(r=>({
+
 category:r[0]?.trim(),
 question:r[1]?.trim(),
 answer:r[2]?.trim()
-})).filter(f=>f.category&&f.question&&f.answer);
+
+})).filter(f=>f.category && f.question && f.answer);
 
 render();
 
@@ -338,7 +387,9 @@ const preferred=[
 "Application Process"
 ];
 
-const allCats=[...new Set(allFAQs.map(f=>f.category))];
+const allCats=[
+...new Set(allFAQs.map(f=>f.category))
+];
 
 const categories=[
 ...preferred.filter(c=>allCats.includes(c)),
@@ -399,10 +450,12 @@ ${c}
 
 <span class="search-icon">🔍</span>
 
-<input class="search-box"
+<input
+class="search-box"
 value="${currentSearch}"
 placeholder="Search FAQs..."
-oninput="handleSearch(this.value)">
+oninput="handleSearch(this.value)"
+>
 
 <span class="clear-btn"
 onclick="clearSearch()">✖</span>
@@ -415,6 +468,7 @@ class="results-count"></div>
 <div id="faq-list"></div>
 
 </div>
+
 </div>
 `;
 
@@ -422,11 +476,11 @@ renderFAQList();
 
 }
 
-function highlight(t){
+function highlight(text){
 
-if(!currentSearch)return t;
+if(!currentSearch) return text;
 
-return t.replace(
+return text.replace(
 new RegExp(`(${currentSearch})`,'gi'),
 '<mark>$1</mark>'
 );
@@ -439,21 +493,23 @@ text=linkify(text);
 
 let blocks=text.split("||");
 
-return blocks.map(b=>{
+return blocks.map(block=>{
 
-b=b.trim();
+block=block.trim();
 
-if(b.includes("|")){
+if(block.includes("|")){
 
-let items=b.split("|").map(i=>i.trim());
+let items=block.split("|").map(i=>i.trim());
 
-return `<ul>
+return `
+<ul>
 ${items.map(i=>`<li>${highlight(i)}</li>`).join('')}
-</ul>`;
+</ul>
+`;
 
 }
 
-return `<p>${highlight(b)}</p>`;
+return `<p>${highlight(block)}</p>`;
 
 }).join("");
 
@@ -476,26 +532,27 @@ f.answer.toLowerCase().includes(s)
 
 }
 
-document.getElementById("results-count").innerText =
+document.getElementById("results-count").innerText=
 currentSearch ? `${data.length} result(s) found` : "";
 
-let html='',i=1;
+let html='';
+let i=1;
 
 data.forEach(f=>{
 
-let cleanAnswer = f.answer
+let cleanAnswer=f.answer
 .replace(/\|\|/g,"\n\n")
 .replace(/\|/g,"\n• ");
 
-let shareText =
-"*Godrej Eternity e-Khata Help Center*\n\n" +
-"*Question:* " + f.question + "\n\n" +
-"*Response:* " + cleanAnswer;
+let shareText=
+"*Godrej Eternity e-Khata Help Center*\n\n"+
+"*Question:* "+f.question+"\n\n"+
+"*Response:* "+cleanAnswer;
 
-let waLink =
-"https://wa.me/?text=" + encodeURIComponent(shareText);
+let waLink=
+"https://wa.me/?text="+encodeURIComponent(shareText);
 
-html +=
+html+=
 
 '<div class="faq-item">' +
 
@@ -503,10 +560,10 @@ html +=
 
 '<span class="faq-arrow">▶</span>' +
 
-'<span class="badge">' + i + '</span>' +
+'<span class="badge">'+i+'</span>' +
 
-'<span class="faq-text">' +
-highlight(f.question) +
+'<span class="faq-text">'+
+highlight(f.question)+
 '</span>' +
 
 '</div>' +
@@ -519,15 +576,11 @@ formatAnswer(f.answer) +
 
 '<div class="whatsapp-share">' +
 
-'<a href="' + waLink + '" target="_blank">' +
+'<a href="'+waLink+'" target="_blank">' +
 
-'```html id="x4n8kp"
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-style="width:16px;height:16px;vertical-align:middle;margin-right:6px;">
+'<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">' +
 
-Share on WhatsApp
-```
-' +
+'<span>Share on WhatsApp</span>' +
 
 '</a>' +
 
@@ -543,31 +596,37 @@ i++;
 
 });
 
-document.getElementById('faq-list').innerHTML =
+document.getElementById('faq-list').innerHTML=
 html || "<p>No results found</p>";
 
 }
 
-function changeCategory(c){
-currentCategory=c;
+function changeCategory(category){
+
+currentCategory=category;
 render();
+
 }
 
-function handleSearch(v){
-currentSearch=v;
+function handleSearch(value){
+
+currentSearch=value;
 renderFAQList();
+
 }
 
 function clearSearch(){
+
 currentSearch="";
 render();
+
 }
 
-function linkify(t){
+function linkify(text){
 
-return t.replace(
+return text.replace(
 /https?:\/\/[^\s]+/g,
-u=>`<a href="${u}" target="_blank">${u}</a>`
+url=>`<a href="${url}" target="_blank">${url}</a>`
 );
 
 }
