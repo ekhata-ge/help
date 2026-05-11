@@ -1,4 +1,425 @@
-```javascript
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Khata Help - Godrej Eternity</title>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:#f4f7f6;
+    padding:10px;
+}
+
+.widget {
+    max-width:1000px;
+    margin:0 auto;
+    background:#fff;
+    border-radius:12px;
+    border:1px solid #ccc;
+}
+
+.header {
+    background:#0d3b6e;
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+
+.content { padding:15px; }
+
+/* Banner */
+.desc-banner {
+    margin-bottom: 15px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #eef4fb, #f7fbff);
+    border-left: 4px solid #0d3b6e;
+    border-radius: 8px;
+}
+
+.desc-title {
+    font-size: 13px;
+    color: #0d3b6e;
+    font-weight: 600;
+}
+
+.desc-tagline {
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: #333;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Layout */
+.layout { display:flex; gap:20px; }
+
+/* Sidebar */
+.sidebar {
+    width:260px;
+    min-width:260px;
+}
+
+.tab {
+    padding:10px;
+    cursor:pointer;
+    border-radius:6px;
+    margin-bottom:5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.tab.main { font-weight:bold; border:1px solid #0d3b6e; }
+.tab.sub { padding-left:20px; }
+.tab.active { background:#0d3b6e; color:#fff; }
+
+/* Mobile */
+.mobile-tabs { display:none; overflow-x:auto; gap:8px; margin-bottom:10px; }
+.mobile-tab { flex:0 0 auto; padding:8px 14px; border-radius:20px; border:1px solid #0d3b6e; }
+.mobile-tab.active { background:#0d3b6e; color:#fff; }
+
+/* Search */
+.search-wrapper { position:relative; margin-bottom:10px; }
+
+.search-box {
+    width:100%;
+    padding:12px 40px;
+    border-radius:25px;
+    border:1px solid #ccc;
+}
+
+.search-icon {
+    position:absolute;
+    left:12px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.clear-btn {
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+}
+
+/* Results */
+.results-count {
+    font-size:12px;
+    color:#666;
+    margin-bottom:10px;
+}
+
+/* Highlight */
+mark {
+    background:#fff3a0;
+}
+
+/* FAQ */
+.faq-item {
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:12px;
+}
+
+.faq-q {
+    padding:14px;
+    display:flex;
+    gap:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.faq-arrow {
+    min-width:20px;
+}
+
+.faq-item.open .faq-arrow {
+    transform:rotate(90deg);
+}
+
+.badge {
+    background:#0d3b6e;
+    color:#fff;
+    padding:3px 8px;
+    border-radius:4px;
+    font-size:12px;
+    min-width:28px;
+    text-align:center;
+}
+
+.faq-text {
+    flex:1;
+}
+
+.faq-a {
+    max-height:0;
+    overflow:hidden;
+}
+
+.faq-item.open .faq-a {
+    max-height:1000px;
+    padding:14px;
+}
+
+.faq-answer-content {
+    background:#fafafa;
+    padding:12px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn{
+    display:inline-block;
+    margin-top:12px;
+    background:#25D366;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+}
+
+ul {
+    padding-left:18px;
+    margin:6px 0;
+}
+
+/* Disclaimer */
+.disclaimer {
+    margin-top:20px;
+    font-size:12px;
+    color:#555;
+    text-align:center;
+    line-height:1.6;
+}
+
+@media(max-width:768px){
+    .layout{flex-direction:column;}
+    .sidebar{display:none;}
+    .mobile-tabs{display:flex;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+<div class="header">
+<h2>E-Khata Help Center</h2>
+<p>Resource for Godrej Eternity Owners</p>
+</div>
+
+<div class="content">
+
+<div class="desc-banner">
+    <div class="desc-title">
+        📋 Prepared by Godrej Eternity e-Khata Volunteers Team
+    </div>
+    <div class="desc-tagline">
+        A tiny step towards bribe-free khata!
+    </div>
+</div>
+
+<div id="faq-container">Loading...</div>
+
+<div class="disclaimer">
+<strong>Disclaimer:</strong>
+<i>
+GBA frequently updates the software and processes related to the e-Khata application. While we are continuously familiarising ourselves with these changes to guide residents, we recommend that you also follow up with the GBA helpdesk and raise support tickets if you encounter any issues.
+</i>
+</div>
+
+</div>
+</div>
+
+<script>
+
+const SHEET_ID="1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
+const EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+let allFAQs=[];
+let currentCategory="All Questions";
+let currentSearch="";
+
+async function loadFAQs(){
+    let res=await fetch(EXPORT_URL);
+    let text=await res.text();
+    parseCSV(text);
+}
+
+function parseCSV(text){
+
+const rows=[];
+let row=[],field='',inQuotes=false;
+
+for(let i=0;i<text.length;i++){
+
+let c=text[i],n=text[i+1];
+
+if(c=='"'&&inQuotes&&n=='"'){
+    field+='"';
+    i++;
+}
+else if(c=='"'){
+    inQuotes=!inQuotes;
+}
+else if(c==','&&!inQuotes){
+    row.push(field);
+    field='';
+}
+else if(c=='\n'&&!inQuotes){
+    row.push(field);
+    rows.push(row);
+    row=[];
+    field='';
+}
+else{
+    field+=c;
+}
+
+}
+
+if(field) row.push(field);
+if(row.length) rows.push(row);
+
+allFAQs=rows.slice(1).map(r=>({
+    category:r[0]?.trim(),
+    question:r[1]?.trim(),
+    answer:r[2]?.trim()
+})).filter(f=>f.category&&f.question&&f.answer);
+
+render();
+
+}
+
+function render(){
+
+const preferred=[
+"General Information",
+"Status and Search",
+"Application Process"
+];
+
+const allCats=[...new Set(allFAQs.map(f=>f.category))];
+
+const categories=[
+...preferred.filter(c=>allCats.includes(c)),
+...allCats.filter(c=>!preferred.includes(c))
+];
+
+document.getElementById('faq-container').innerHTML=`
+
+<div class="layout">
+
+<div class="sidebar">
+
+<div class="tab main ${currentCategory==="All Questions"?"active":""}"
+onclick="changeCategory('All Questions')">
+All Questions
+</div>
+
+${categories.map(c=>`
+<div class="tab sub ${currentCategory===c?"active":""}"
+onclick="changeCategory('${c}')">
+${c}
+</div>
+`).join('')}
+
+</div>
+
+<div class="main">
+
+<div class="mobile-tabs">
+
+<div class="mobile-tab ${currentCategory==="All Questions"?"active":""}"
+onclick="changeCategory('All Questions')">
+All
+</div>
+
+${categories.map(c=>`
+<div class="mobile-tab ${currentCategory===c?"active":""}"
+onclick="changeCategory('${c}')">
+${c}
+</div>
+`).join('')}
+
+</div>
+
+<div class="search-wrapper">
+
+<span class="search-icon">🔍</span>
+
+<input
+class="search-box"
+value="${currentSearch}"
+placeholder="Search FAQs..."
+oninput="handleSearch(this.value)"
+>
+
+<span class="clear-btn" onclick="clearSearch()">✖</span>
+
+</div>
+
+<div id="results-count" class="results-count"></div>
+
+<div id="faq-list"></div>
+
+</div>
+</div>
+`;
+
+renderFAQList();
+
+}
+
+function highlight(t){
+
+if(!currentSearch) return t;
+
+return t.replace(
+new RegExp(`(${currentSearch})`,'gi'),
+'<mark>$1</mark>'
+);
+
+}
+
+function formatAnswer(text){
+
+text=linkify(text);
+
+let blocks=text.split("||");
+
+return blocks.map(b=>{
+
+b=b.trim();
+
+if(b.includes("|")){
+
+let items=b.split("|").map(i=>i.trim());
+
+return `
+<ul>
+${items.map(i=>`<li>${highlight(i)}</li>`).join('')}
+</ul>
+`;
+
+}
+
+return `<p>${highlight(b)}</p>`;
+
+}).join("");
+
+}
+
 function renderFAQList(){
 
 let data=currentCategory==="All Questions"
@@ -6,11 +427,14 @@ let data=currentCategory==="All Questions"
 : allFAQs.filter(f=>f.category===currentCategory);
 
 if(currentSearch){
+
 let s=currentSearch.toLowerCase();
-data=data.filter(f =>
+
+data=data.filter(f=>
 f.question.toLowerCase().includes(s) ||
 f.answer.toLowerCase().includes(s)
 );
+
 }
 
 document.getElementById("results-count").innerText =
@@ -20,34 +444,28 @@ let html='',i=1;
 
 data.forEach(f=>{
 
-let faqId = `faq-${i}`;
-
-let pageURL =
-window.location.origin +
-window.location.pathname +
-'#' + faqId;
-
 let shareText =
 `*Godrej Eternity e-Khata Help Center*\n\n` +
-`*Q:* ${f.question}\n\n` +
-`*A:* ${f.answer.replace(/\|/g,"\n• ").replace(/\|\|/g,"\n\n")}\n\n` +
-`🔗 View here: ${pageURL}`;
+`*Question:* ${f.question}\n\n` +
+`*Response:* ${f.answer.replace(/\|/g,"\n• ").replace(/\|\|/g,"\n\n")}`;
 
 let waLink =
 `https://wa.me/?text=${encodeURIComponent(shareText)}`;
 
 html+=`
-<div class="faq-item" id="${faqId}">
+
+<div class="faq-item">
 
 <div class="faq-q"
-onclick="
-this.parentElement.classList.toggle('open');
-history.replaceState(null,null,'#${faqId}');
-">
+onclick="this.parentElement.classList.toggle('open')">
 
 <span class="faq-arrow">▶</span>
+
 <span class="badge">${i}</span>
-<span class="faq-text">${highlight(f.question)}</span>
+
+<span class="faq-text">
+${highlight(f.question)}
+</span>
 
 </div>
 
@@ -60,33 +478,55 @@ ${formatAnswer(f.answer)}
 <a href="${waLink}"
 target="_blank"
 class="whatsapp-btn">
+
 📤 Share on WhatsApp
+
 </a>
 
 </div>
 
 </div>
-</div>`;
+
+</div>
+`;
 
 i++;
+
 });
 
 document.getElementById('faq-list').innerHTML =
 html || "<p>No results found</p>";
 
-/* Auto-open shared FAQ link */
-if(window.location.hash){
-let el = document.querySelector(window.location.hash);
-if(el){
-el.classList.add('open');
-setTimeout(()=>{
-el.scrollIntoView({
-behavior:'smooth',
-block:'start'
-});
-},300);
-}
 }
 
+function changeCategory(c){
+currentCategory=c;
+render();
 }
+
+function handleSearch(v){
+currentSearch=v;
+renderFAQList();
+}
+
+function clearSearch(){
+currentSearch="";
+render();
+}
+
+function linkify(t){
+
+return t.replace(
+/https?:\/\/[^\s]+/g,
+u=>`<a href="${u}" target="_blank">${u}</a>`
+);
+
+}
+
+window.onload=loadFAQs;
+
+</script>
+
+</body>
+</html>
 ```
