@@ -74,17 +74,45 @@ body {
     text-overflow:ellipsis;
 }
 
-.tab.main { font-weight:bold; border:1px solid #0d3b6e; }
-.tab.sub { padding-left:20px; }
-.tab.active { background:#0d3b6e; color:#fff; }
+.tab.main {
+    font-weight:bold;
+    border:1px solid #0d3b6e;
+}
+
+.tab.sub {
+    padding-left:20px;
+}
+
+.tab.active {
+    background:#0d3b6e;
+    color:#fff;
+}
 
 /* Mobile */
-.mobile-tabs { display:none; overflow-x:auto; gap:8px; margin-bottom:10px; }
-.mobile-tab { flex:0 0 auto; padding:8px 14px; border-radius:20px; border:1px solid #0d3b6e; }
-.mobile-tab.active { background:#0d3b6e; color:#fff; }
+.mobile-tabs {
+    display:none;
+    overflow-x:auto;
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.mobile-tab {
+    flex:0 0 auto;
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid #0d3b6e;
+}
+
+.mobile-tab.active {
+    background:#0d3b6e;
+    color:#fff;
+}
 
 /* Search */
-.search-wrapper { position:relative; margin-bottom:10px; }
+.search-wrapper {
+    position:relative;
+    margin-bottom:10px;
+}
 
 .search-box {
     width:100%;
@@ -174,22 +202,25 @@ mark {
     font-size:14px;
 }
 
+ul {
+    padding-left:18px;
+    margin:6px 0;
+}
+
 /* WhatsApp Button */
-.whatsapp-btn{
-    display:inline-block;
+.whatsapp-share {
     margin-top:12px;
+}
+
+.whatsapp-share a {
+    display:inline-block;
     background:#25D366;
-    color:white;
+    color:#fff;
     padding:8px 14px;
     border-radius:6px;
     text-decoration:none;
     font-size:13px;
     font-weight:600;
-}
-
-ul {
-    padding-left:18px;
-    margin:6px 0;
 }
 
 /* Disclaimer */
@@ -246,14 +277,12 @@ GBA frequently updates the software and processes related to the e-Khata applica
 const SHEET_ID="1SpPWDuj1WfuSA2tv9AVPGsNGMTycMk4PKaliltBnp04";
 const EXPORT_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
 
-let allFAQs=[];
-let currentCategory="All Questions";
-let currentSearch="";
+let allFAQs=[],currentCategory="All Questions",currentSearch="";
 
 async function loadFAQs(){
-    let res=await fetch(EXPORT_URL);
-    let text=await res.text();
-    parseCSV(text);
+let res=await fetch(EXPORT_URL);
+let text=await res.text();
+parseCSV(text);
 }
 
 function parseCSV(text){
@@ -266,35 +295,35 @@ for(let i=0;i<text.length;i++){
 let c=text[i],n=text[i+1];
 
 if(c=='"'&&inQuotes&&n=='"'){
-    field+='"';
-    i++;
+field+='"';
+i++;
 }
 else if(c=='"'){
-    inQuotes=!inQuotes;
+inQuotes=!inQuotes;
 }
 else if(c==','&&!inQuotes){
-    row.push(field);
-    field='';
+row.push(field);
+field='';
 }
 else if(c=='\n'&&!inQuotes){
-    row.push(field);
-    rows.push(row);
-    row=[];
-    field='';
+row.push(field);
+rows.push(row);
+row=[];
+field='';
 }
 else{
-    field+=c;
+field+=c;
 }
 
 }
 
-if(field) row.push(field);
-if(row.length) rows.push(row);
+if(field)row.push(field);
+if(row.length)rows.push(row);
 
 allFAQs=rows.slice(1).map(r=>({
-    category:r[0]?.trim(),
-    question:r[1]?.trim(),
-    answer:r[2]?.trim()
+category:r[0]?.trim(),
+question:r[1]?.trim(),
+answer:r[2]?.trim()
 })).filter(f=>f.category&&f.question&&f.answer);
 
 render();
@@ -324,14 +353,20 @@ document.getElementById('faq-container').innerHTML=`
 
 <div class="tab main ${currentCategory==="All Questions"?"active":""}"
 onclick="changeCategory('All Questions')">
+
 All Questions
+
 </div>
 
 ${categories.map(c=>`
+
 <div class="tab sub ${currentCategory===c?"active":""}"
 onclick="changeCategory('${c}')">
+
 ${c}
+
 </div>
+
 `).join('')}
 
 </div>
@@ -342,14 +377,20 @@ ${c}
 
 <div class="mobile-tab ${currentCategory==="All Questions"?"active":""}"
 onclick="changeCategory('All Questions')">
+
 All
+
 </div>
 
 ${categories.map(c=>`
+
 <div class="mobile-tab ${currentCategory===c?"active":""}"
 onclick="changeCategory('${c}')">
+
 ${c}
+
 </div>
+
 `).join('')}
 
 </div>
@@ -358,18 +399,18 @@ ${c}
 
 <span class="search-icon">🔍</span>
 
-<input
-class="search-box"
+<input class="search-box"
 value="${currentSearch}"
 placeholder="Search FAQs..."
-oninput="handleSearch(this.value)"
->
+oninput="handleSearch(this.value)">
 
-<span class="clear-btn" onclick="clearSearch()">✖</span>
+<span class="clear-btn"
+onclick="clearSearch()">✖</span>
 
 </div>
 
-<div id="results-count" class="results-count"></div>
+<div id="results-count"
+class="results-count"></div>
 
 <div id="faq-list"></div>
 
@@ -383,7 +424,7 @@ renderFAQList();
 
 function highlight(t){
 
-if(!currentSearch) return t;
+if(!currentSearch)return t;
 
 return t.replace(
 new RegExp(`(${currentSearch})`,'gi'),
@@ -406,11 +447,9 @@ if(b.includes("|")){
 
 let items=b.split("|").map(i=>i.trim());
 
-return `
-<ul>
+return `<ul>
 ${items.map(i=>`<li>${highlight(i)}</li>`).join('')}
-</ul>
-`;
+</ul>`;
 
 }
 
@@ -444,51 +483,55 @@ let html='',i=1;
 
 data.forEach(f=>{
 
+let cleanAnswer = f.answer
+.replace(/\|\|/g,"\n\n")
+.replace(/\|/g,"\n• ");
+
 let shareText =
-`*Godrej Eternity e-Khata Help Center*\n\n` +
-`*Question:* ${f.question}\n\n` +
-`*Response:* ${f.answer.replace(/\|/g,"\n• ").replace(/\|\|/g,"\n\n")}`;
+"*Godrej Eternity e-Khata Help Center*\n\n" +
+"*Question:* " + f.question + "\n\n" +
+"*Response:* " + cleanAnswer;
 
 let waLink =
-`https://wa.me/?text=${encodeURIComponent(shareText)}`;
+"https://wa.me/?text=" + encodeURIComponent(shareText);
 
-html+=`
+html +=
 
-<div class="faq-item">
+'<div class="faq-item">' +
 
-<div class="faq-q"
-onclick="this.parentElement.classList.toggle('open')">
+'<div class="faq-q" onclick="this.parentElement.classList.toggle(\'open\')">' +
 
-<span class="faq-arrow">▶</span>
+'<span class="faq-arrow">▶</span>' +
 
-<span class="badge">${i}</span>
+'<span class="badge">' + i + '</span>' +
 
-<span class="faq-text">
-${highlight(f.question)}
-</span>
+'<span class="faq-text">' +
+highlight(f.question) +
+'</span>' +
 
-</div>
+'</div>' +
 
-<div class="faq-a">
+'<div class="faq-a">' +
 
-<div class="faq-answer-content">
+'<div class="faq-answer-content">' +
 
-${formatAnswer(f.answer)}
+formatAnswer(f.answer) +
 
-<a href="${waLink}"
-target="_blank"
-class="whatsapp-btn">
+'<div class="whatsapp-share">' +
 
-📤 Share on WhatsApp
+'<a href="' + waLink + '" target="_blank">' +
 
-</a>
+'📤 Share on WhatsApp' +
 
-</div>
+'</a>' +
 
-</div>
+'</div>' +
 
-</div>
-`;
+'</div>' +
+
+'</div>' +
+
+'</div>';
 
 i++;
 
