@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +32,7 @@ body {
 
 .content { padding:15px; }
 
-/* ✅ NEW BANNER STYLE (only change) */
+/* Banner */
 .desc-banner {
     margin-bottom: 15px;
     padding: 14px 16px;
@@ -128,6 +129,18 @@ mark { background:#fff3a0; }
     font-size:14px;
 }
 
+.whatsapp-btn{
+    display:inline-block;
+    margin-top:12px;
+    background:#25D366;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+}
+
 ul { padding-left:18px; margin:6px 0; }
 
 /* Disclaimer */
@@ -157,7 +170,6 @@ ul { padding-left:18px; margin:6px 0; }
 
 <div class="content">
 
-<!-- ✅ UPDATED BANNER -->
 <div class="desc-banner">
     <div class="desc-title">
         📋 Prepared by Godrej Eternity e-Khata Volunteers Team
@@ -279,16 +291,37 @@ document.getElementById("results-count").innerText =
 currentSearch ? `${data.length} result(s) found` : "";
 
 let html='',i=1;
+
 data.forEach(f=>{
+
+let shareText =
+`*Godrej Eternity e-Khata Help Center*\n\n` +
+`*Q:* ${f.question}\n\n` +
+`*A:* ${f.answer.replace(/\|/g,"\n• ").replace(/\|\|/g,"\n\n")}`;
+
+let waLink = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+
 html+=`
 <div class="faq-item">
+
 <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
 <span class="faq-arrow">▶</span>
 <span class="badge">${i}</span>
 <span class="faq-text">${highlight(f.question)}</span>
 </div>
+
 <div class="faq-a">
-<div class="faq-answer-content">${formatAnswer(f.answer)}</div>
+
+<div class="faq-answer-content">
+
+${formatAnswer(f.answer)}
+
+<a href="${waLink}" target="_blank" class="whatsapp-btn">
+📤 Share on WhatsApp
+</a>
+
+</div>
+
 </div>
 </div>`;
 i++;
@@ -307,3 +340,4 @@ window.onload=loadFAQs;
 
 </body>
 </html>
+```
